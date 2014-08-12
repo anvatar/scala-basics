@@ -14,11 +14,9 @@
 
 ## 스터디 진행
 
- [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소를 fork 한 뒤, 새로 생성된 저장소 내에 자신만의 브랜치를 하나 생성합니다.
+ [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소를 fork 한 뒤 chapter 단위로 다음을 반복합니다.
  
- 매 세션마다 다음을 반복합니다.
- 
- 1. 세션 범위 내의 문제 풀이를 개인 브랜치에 작성합니다.
- 1. 하나의 단위(chapter 등)를 마칠 때마다 자신이 작업한 부분을 pull request 방식으로 [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소에 보냅니다.
+ 1. 해당 chapter 문제 풀이를 위한 브랜치를 생성하고 문제 풀이를 합니다.
+ 1. 작업한 브랜치를 pull request 방식으로 [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소에 보냅니다.
  1. 자신도 문제 풀이를 마친 부분에 대해 다른 사람의 pull request를 리뷰합니다.
  1. 오프라인 모임에서 최종 리뷰를 거쳐 모범 답안을 만들어냅니다. 모범 답안을 master 브랜치에 반영합니다.
