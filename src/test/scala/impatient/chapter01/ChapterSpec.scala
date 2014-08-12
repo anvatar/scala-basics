@@ -8,10 +8,10 @@ class ChapterSpec extends FlatSpec with Matchers {
   //
 
   /*
-          scala> 3.
-          %   +   >    >>>            isInstanceOf   toDouble   toLong     unary_+   |
-          &   -   >=   ^              toByte         toFloat    toShort    unary_-
-          *   /   >>   asInstanceOf   toChar         toInt      toString   unary_~
+      scala> 3.
+      %   +   >    >>>            isInstanceOf   toDouble   toLong     unary_+   |
+      &   -   >=   ^              toByte         toFloat    toShort    unary_-
+      *   /   >>   asInstanceOf   toChar         toInt      toString   unary_~
    */
 
 
@@ -20,18 +20,18 @@ class ChapterSpec extends FlatSpec with Matchers {
   //
 
   /*
-          scala> import scala.math._
-          import scala.math._
+      scala> import scala.math._
+      import scala.math._
 
-          scala> sqrt(3)
-          res0: Double = 1.7320508075688772
+      scala> sqrt(3)
+      res0: Double = 1.7320508075688772
 
-          scala> 3 - res0.
-          %   +   /   >=             isInstanceOf   toChar     toFloat   toLong    toString   unary_-
-          *   -   >   asInstanceOf   toByte         toDouble   toInt     toShort   unary_+
+      scala> 3 - res0.
+      %   +   /   >=             isInstanceOf   toChar     toFloat   toLong    toString   unary_-
+      *   -   >   asInstanceOf   toByte         toDouble   toInt     toShort   unary_+
 
-          scala> 3 - res0 * res0
-          res1: Double = 4.440892098500626E-16
+      scala> 3 - res0 * res0
+      res1: Double = 4.440892098500626E-16
    */
 
   //
