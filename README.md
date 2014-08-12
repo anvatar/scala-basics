@@ -17,6 +17,6 @@
  [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소를 fork 한 뒤 chapter 단위로 다음을 반복합니다.
  
  1. 해당 chapter 문제 풀이를 위한 브랜치를 생성하고 문제 풀이를 합니다.
- 1. 작업한 브랜치를 pull request 방식으로 [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소에 보냅니다.
+ 1. 작업한 브랜치의 pull request를 [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소로 보냅니다.
  1. 자신도 문제 풀이를 마친 부분에 대해 다른 사람의 pull request를 리뷰합니다.
  1. 오프라인 모임에서 최종 리뷰를 거쳐 모범 답안을 만들어냅니다. 모범 답안을 master 브랜치에 반영합니다.
