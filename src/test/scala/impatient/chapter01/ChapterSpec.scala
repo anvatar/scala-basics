@@ -118,11 +118,13 @@ class ChapterSpec extends FlatSpec with Matchers {
   //
 
   /*
-      string#substring()은 인자로 (beginIndex, length)를 받는지, (beginIndex, endIndex)를 받는지 헷갈린다.
-      string#substring()의 인자에는 string#length() 값을 이용해야 하는 경우가 많다.
+      substring의 단점
+        - 인자로 (beginIndex, length)를 받는지, (beginIndex, endIndex)를 받는지 헷갈린다.
+        - 인자에 string#length() 값을 이용해야 하는 경우가 많다.
+        - beginIndex나 endIndex를 잘못 계산하면 StringIndexOutOfBoundsException이 발생하기 쉽다.
 
-      take, drop, takeRight, dropRight를 사용하는 것이 의미가 더 명확하며,
-      대부분의 경우 코드도 더 간결해진다.
+      take, drop, takeRight, dropRight를 사용하는 것이 의미가 더 명확하며, 대부분의 경우 코드도 더 간결해진다.
+      단, 중간에서 일정 길이의 문자열을 취해야 할 때에는 substring을 사용한 코드가 더 간결하다.
    */
 
   "take, drop, takeRight, dropRight" should "be better than substring" in {
