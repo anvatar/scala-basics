@@ -14,9 +14,16 @@
 
 ## 스터디 진행
 
- [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소를 fork 한 뒤 chapter 단위로 다음을 반복합니다.
+ [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소를 fork 한 뒤, master 이외의 브랜치를 삭제합니다.
  
- 1. 해당 chapter 문제 풀이를 위한 브랜치를 생성하고 문제 풀이를 합니다.
- 1. 작업한 브랜치의 pull request를 [anvatar/scala-basics](https://github.com/anvatar/scala-basics) 저장소로 보냅니다.
- 1. 자신도 문제 풀이를 마친 부분에 대해 다른 사람의 pull request를 리뷰합니다.
- 1. 오프라인 모임에서 최종 리뷰를 거쳐 모범 답안을 만들어냅니다. 모범 답안을 master 브랜치에 반영합니다.
+ Chapter 단위로 다음을 반복합니다.
+ 
+ 1. 자신의 저장소에 해당 chapter 문제 풀이를 위한 브랜치를 생성하고 문제 풀이를 합니다.
+ 1. 작업한 브랜치의 push 하고, 자신의 저장소 내에서 pull request를 생성합니다.
+ 1. 다른 사람 저장소 상의 pull request를 리뷰합니다.
+ 1. 특별히 복잡한 논의가 필요한 문제가 있으면 오프라인 모임에서 최종 리뷰를 합니다.
+ 1. 충분히 리뷰가 되었으면 자신의 저장소 master에 작업 branch를 병합합니다.
+ 
+여러 사람이 문제 풀이한 소스를 하나로 합쳐 모범 답안을 만들거나 하지 않습니다. Fork 한 이후 개별 저장소는 각자 독립적으로 관리합니다. 단, 리뷰를 편하게 하기 위해 "문제 풀이 방법"과 같은 컨벤션은 지켜주시기 바랍니다.
+
+원활한 리뷰를 위해서는 모두가 서로의 저장소를 watch 하고 있는 것이 좋습니다.
