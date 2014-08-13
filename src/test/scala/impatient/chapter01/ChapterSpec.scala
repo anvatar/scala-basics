@@ -40,7 +40,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   //
 
   "2 ^ 1024" should "be " + BigInt(2).pow(1024) in {
-    true should be === true
+    true shouldEqual true
   }
 
   //
