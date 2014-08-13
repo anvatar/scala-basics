@@ -77,7 +77,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   //
 
   "2 ^ 1024" should "be " + BigInt(2).pow(1024) in {
-    true should be === true
+    true shouldEqual true
   }
 
   //
@@ -97,7 +97,7 @@ class ChapterSpec extends FlatSpec with Matchers {
 
   "Temporary file name" should "look like " +
     BigInt.probablePrime(100, util.Random).toString(36) in {
-    true should be === true
+    true shouldEqual true
   }
 
   //
@@ -105,12 +105,12 @@ class ChapterSpec extends FlatSpec with Matchers {
   //
 
   "First character of \"scala\"" should "be 's'" in {
-    "scala".head should be === 's'
-    "scala"(0) should be === 's'
+    "scala".head shouldEqual 's'
+    "scala"(0) shouldEqual 's'
   }
 
   "Last character of \"scala\"" should "be 'a'" in {
-    "scala".last should be === 'a'
+    "scala".last shouldEqual 'a'
   }
 
   //
@@ -130,22 +130,22 @@ class ChapterSpec extends FlatSpec with Matchers {
   "take, drop, takeRight, dropRight" should "be better than substring" in {
     val str = "Scala for the Impatient"
 
-    str take 5 should be === "Scala"
-    str.substring(0, 5) should be === "Scala"
+    str take 5 shouldEqual "Scala"
+    str.substring(0, 5) shouldEqual "Scala"
 
-    str drop 5 should be === " for the Impatient"
-    str.substring(5) should be === " for the Impatient"
+    str drop 5 shouldEqual " for the Impatient"
+    str.substring(5) shouldEqual " for the Impatient"
 
-    str takeRight 5 should be === "tient"
-    str.substring(str.length - 5, str.length) should be === "tient"
+    str takeRight 5 shouldEqual "tient"
+    str.substring(str.length - 5, str.length) shouldEqual "tient"
 
-    str dropRight 5 should be === "Scala for the Impa"
-    str.substring(0, str.length - 5) should be === "Scala for the Impa"
+    str dropRight 5 shouldEqual "Scala for the Impa"
+    str.substring(0, str.length - 5) shouldEqual "Scala for the Impa"
 
-    str drop 5 dropRight 5 should be === " for the Impa"
-    str.substring(5, str.length - 5) should be === " for the Impa"
+    str drop 5 dropRight 5 shouldEqual " for the Impa"
+    str.substring(5, str.length - 5) shouldEqual " for the Impa"
 
-    str take 10 takeRight 5 should be === " for "
-    str.substring(5, 10) should be === " for "
+    str take 10 takeRight 5 shouldEqual " for "
+    str.substring(5, 10) shouldEqual " for "
   }
 }
