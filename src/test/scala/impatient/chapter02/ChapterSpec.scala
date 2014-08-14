@@ -98,24 +98,28 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 6
   //
 
-  def product1(s: String) = {
-    var product: Long = 1
-    for (c <- "Hello") product *= c
-    product
-  }
+  {
+    def product(s: String) = {
+      var result: Long = 1
+      for (c <- "Hello") result *= c
+      result
+    }
 
-  "product1(\"Hello\")" should "be " + 9415087488L in {
-    product1("Hello") shouldEqual 9415087488L
+    "6: product(\"Hello\")" should "be " + 9415087488L in {
+      product("Hello") shouldEqual 9415087488L
+    }
   }
 
   //
   // 연습문제 7
   //
 
-  def product2(s: String) = s.map(_.toLong).product
+  {
+    def product(s: String) = s.map(_.toLong).product
 
-  "product2(\"Hello\")" should "be " + 9415087488L in {
-    product2("Hello") shouldEqual 9415087488L
+    "7: product(\"Hello\")" should "be " + 9415087488L in {
+      product("Hello") shouldEqual 9415087488L
+    }
   }
 
   //
@@ -130,10 +134,12 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 9
   //
 
-  def product3(s: String): Long = if (s.isEmpty) 1 else s.head * product3(s.tail)
+  {
+    def product(s: String): Long = if (s.isEmpty) 1 else s.head * product(s.tail)
 
-  "product3(\"Hello\")" should "be " + 9415087488L in {
-    product3("Hello") shouldEqual 9415087488L
+    "9: product(\"Hello\")" should "be " + 9415087488L in {
+      product("Hello") shouldEqual 9415087488L
+    }
   }
 
   //
