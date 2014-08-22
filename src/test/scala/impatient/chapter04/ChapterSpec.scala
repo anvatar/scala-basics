@@ -11,6 +11,12 @@ class ChapterSpec extends FlatSpec with Matchers {
 
   def discountPrices(prices: Map[String, Int]) = {
     (for ((k, v) <- prices) yield (k, v * 0.9)).toMap
+
+    // 대안 1
+    /*prices.mapValues(_ * 0.9)*/
+
+    // 대안 2
+    /*prices.map({ case (k, v) => (k, v * 0.9) })*/
   }
 
   {
