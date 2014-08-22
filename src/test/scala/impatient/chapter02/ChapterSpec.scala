@@ -146,18 +146,18 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 10
   //
 
-  def x_n(x: Double, n: Int): Double = {
+  def pow(x: Double, n: Int): Double = {
     if (n > 0) {
-      if (n % 2 == 0) { val y = x_n(x, n / 2); y * y }
-      else x * x_n(x, n - 1)
+      if (n % 2 == 0) { val y = pow(x, n / 2); y * y }
+      else x * pow(x, n - 1)
     }
     else if (n == 0) 1
-    else 1 / x_n(x, -n)
+    else 1 / pow(x, -n)
   }
 
   for (x <- 0.1.to(3.0, 0.1); n <- -3 to 3) {
     "" + x + "^" + n should "be " + math.pow(x, n) in {
-      math.abs(x_n(x, n) - math.pow(x, n)) < 0.0001 shouldEqual true
+      math.abs(pow(x, n) - math.pow(x, n)) < 0.0001 shouldEqual true
     }
   }
 }
