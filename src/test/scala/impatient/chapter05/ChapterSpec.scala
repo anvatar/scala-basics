@@ -52,20 +52,14 @@ class ChapterSpec extends FlatSpec with Matchers {
 
   {
     class Time(val hours: Int, val minutes: Int) {
-      if (!(0 until 24).contains(hours)) throw new IllegalArgumentException("invalid hours <" + hours + ">")
-      if (!(0 until 60).contains(minutes)) throw new IllegalArgumentException("invalid minutes <" + minutes + ">")
-
       def before(other: Time) = inMinutes < other.inMinutes
 
       private def inMinutes() = hours * 60 + minutes
-
-      override def toString = "Time(hours = " + hours + ", minutes = " + minutes + ")"
     }
 
     val time1 = new Time(1, 45)
     val time2 = new Time(12, 30)
     val time3 = new Time(23, 15)
-    //val time4 = new Time(24, 0)     /* 예외 발생 */
 
     "" + time1 should "be before " + time2 in {
       time1 before time2 shouldEqual true
@@ -84,21 +78,15 @@ class ChapterSpec extends FlatSpec with Matchers {
     class Time private(val inMinutes: Int) {
       def this(hours: Int, minutes: Int) {
         this(hours * 60 + minutes)
-
-        if (!(0 until 24).contains(hours)) throw new IllegalArgumentException("invalid hours <" + hours + ">")
-        if (!(0 until 60).contains(minutes)) throw new IllegalArgumentException("invalid minutes <" + minutes + ">")
       }
 
       def before(other: Time) = inMinutes < other.inMinutes
-
-      override def toString = "Time(" + inMinutes + ")"
     }
 
     val time1 = new Time(1, 45)
     val time2 = new Time(12, 30)
     val time3 = new Time(23, 15)
-    //val time4 = new Time(24, 0)     /* 예외 발생 */
-    //val time5 = new Time(2 * 60 + 40) /* 컴파일 에러 */
+    //val time4 = new Time(2 * 60 + 40) /* 컴파일 에러 */
 
     "" + time1 should "be before " + time2 in {
       time1 before time2 shouldEqual true
