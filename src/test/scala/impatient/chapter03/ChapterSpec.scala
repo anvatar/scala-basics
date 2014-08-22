@@ -187,7 +187,8 @@ class ChapterSpec extends FlatSpec with Matchers {
     val negativeIndexes = for (i <- 0 until ints.length if ints(i) < 0) yield i
 
     if (negativeIndexes.nonEmpty)
-      for (i <- negativeIndexes.tail.reverse) ints.remove(i)
+      for (i <- negativeIndexes.reverse dropRight 1) ints.remove(i)
+      //for (i <- negativeIndexes.tail.reverse) ints.remove(i)
   }
 
   {
