@@ -7,7 +7,7 @@ import scala.util.Random
 
 class ChapterSpec extends FlatSpec with Matchers {
   //
-  // 연습문제 1
+  // 연습문제 3-1
   //
 
   def randomArray(n: Int) = {
@@ -39,7 +39,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 2
+  // 연습문제 3-2
   //
 
   {
@@ -61,7 +61,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 3
+  // 연습문제 3-3
   //
 
   {
@@ -84,7 +84,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 4
+  // 연습문제 3-4
   //
 
   {
@@ -106,7 +106,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 5
+  // 연습문제 3-5
   //
 
   {
@@ -121,7 +121,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 6
+  // 연습문제 3-6
   //
 
   {
@@ -153,7 +153,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 7
+  // 연습문제 3-7
   //
 
   {
@@ -166,7 +166,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 8
+  // 연습문제 3-8
   //
 
   /*
@@ -220,7 +220,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 9
+  // 연습문제 3-9
   //
 
   def timeZonesOfRegion(region: String): Array[String] = {
@@ -247,7 +247,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 10
+  // 연습문제 3-10
   //
 
   /*

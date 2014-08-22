@@ -4,7 +4,7 @@ import org.scalatest.{Matchers, FlatSpec}
 
 class ChapterSpec extends FlatSpec with Matchers {
   //
-  // 연습문제 1
+  // 연습문제 2-1
   //
 
   def signum(num: Int) = if (num > 0) 1 else if (num < 0) -1 else 0
@@ -24,7 +24,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 2
+  // 연습문제 2-2
   //
 
   /*
@@ -47,7 +47,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 3
+  // 연습문제 2-3
   //
 
   /*
@@ -55,7 +55,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 4
+  // 연습문제 2-4
   //
 
   /*
@@ -73,7 +73,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 5
+  // 연습문제 2-5
   //
 
   /*
@@ -95,7 +95,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 6
+  // 연습문제 2-6
   //
 
   {
@@ -111,7 +111,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 7
+  // 연습문제 2-7
   //
 
   {
@@ -123,15 +123,15 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 8
+  // 연습문제 2-8
   //
 
   /*
-      연습문제 6, 7에 포함된 것으로 봐야 하나?
+      연습문제 2-6, 2-7에 포함된 것으로 봐야 하나?
    */
 
   //
-  // 연습문제 9
+  // 연습문제 2-9
   //
 
   {
@@ -143,7 +143,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 10
+  // 연습문제 2-10
   //
 
   def pow(x: Double, n: Int): Double = {

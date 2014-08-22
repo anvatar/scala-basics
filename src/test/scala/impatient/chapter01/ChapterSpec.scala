@@ -4,7 +4,7 @@ import org.scalatest._
 
 class ChapterSpec extends FlatSpec with Matchers {
   //
-  // 연습문제 1
+  // 연습문제 1-1
   //
 
   /*
@@ -16,7 +16,7 @@ class ChapterSpec extends FlatSpec with Matchers {
 
 
   //
-  // 연습문제 2
+  // 연습문제 1-2
   //
 
   /*
@@ -35,7 +35,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 3
+  // 연습문제 1-3
   //
 
   /*
@@ -47,7 +47,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 4
+  // 연습문제 1-4
   //
 
   /*
@@ -62,7 +62,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 5
+  // 연습문제 1-5
   //
 
   /*
@@ -73,7 +73,7 @@ class ChapterSpec extends FlatSpec with Matchers {
    */
 
   //
-  // 연습문제 6
+  // 연습문제 1-6
   //
 
   "2 ^ 1024" should "be " + BigInt(2).pow(1024) in {
@@ -81,7 +81,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 7
+  // 연습문제 1-7
   //
 
   "probablePrime(100, Random)" should "be compiled" in {
@@ -92,7 +92,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 8
+  // 연습문제 1-8
   //
 
   "Temporary file name" should "look like " +
@@ -101,7 +101,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 9
+  // 연습문제 1-9
   //
 
   "First character of \"scala\"" should "be 's'" in {
@@ -114,7 +114,7 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   //
-  // 연습문제 10
+  // 연습문제 1-10
   //
 
   /*
