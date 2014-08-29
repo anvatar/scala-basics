@@ -4,6 +4,6 @@ package impatient.chapter07
 
 object TopOfFile2 {
   //val x = new X     => 컴파일 에러
-  val x = new impatient.X
+  val x = new _root_.impatient.X
   val y = new Y
 }
