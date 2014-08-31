@@ -6,5 +6,5 @@ class Creature {
 }
 
 class Ant extends Creature {
-  override val range = 2
+  override def range = 2
 }
