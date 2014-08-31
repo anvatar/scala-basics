@@ -141,10 +141,10 @@ class ChapterSuite extends FunSuite {
 
   class SimpleItem(val price: Double, val description: String) extends Item
 
-  class Bundle extends Item {
-    val items = ArrayBuffer[Item]()
+  class Bundle private(val items: Array[Item]) extends Item {
+    def this() = this(Array[Item]())
 
-    def add(item: Item): Unit = items += item
+    def add(item: Item): Bundle = new Bundle(items :+ item)
 
     def price = {
       var result: Double = 0
@@ -156,15 +156,9 @@ class ChapterSuite extends FunSuite {
   }
 
   test("Items") {
-    val bundle = new Bundle
-    bundle add new SimpleItem(1, "simple1")
-    bundle add {
-      val anotherBundle = new Bundle
-      anotherBundle add new SimpleItem(2, "simple2")
-      anotherBundle add new SimpleItem(3, "simple3")
-      anotherBundle
-    }
-
+    val bundle = (new Bundle).
+      add(new SimpleItem(1, "simple1")).
+      add(new Bundle add new SimpleItem(2, "simple2") add new SimpleItem(3, "simple3"))
     assertResult(1 + 2 + 3)(bundle.price)
     assertResult("( simple1, ( simple2, simple3 ) )")(bundle.description)
   }
