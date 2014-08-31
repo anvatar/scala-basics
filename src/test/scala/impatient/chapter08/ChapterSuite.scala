@@ -49,20 +49,23 @@ class ChapterSuite extends FunSuite {
     restoreNumOfRemainingFreeTransactions()
 
     override def deposit(amount: Double): Double = {
-      if (numOfRemainingFreeTransactions <= 0) super.withdraw(1)
-      numOfRemainingFreeTransactions -= 1
+      payTransactionFee()
       super.deposit(amount)
     }
 
     override def withdraw(amount: Double): Double = {
-      if (numOfRemainingFreeTransactions <= 0) super.withdraw(1)
-      numOfRemainingFreeTransactions -= 1
+      payTransactionFee()
       super.withdraw(amount)
     }
 
     def earnMonthlyInterest(interestRate: Double) = {
       restoreNumOfRemainingFreeTransactions()
       super.deposit(currentBalance * interestRate)
+    }
+
+    private def payTransactionFee(): Unit = {
+      if (numOfRemainingFreeTransactions <= 0) super.withdraw(1)
+      numOfRemainingFreeTransactions -= 1
     }
 
     private def restoreNumOfRemainingFreeTransactions(): Unit = {
