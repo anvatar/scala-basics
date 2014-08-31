@@ -158,9 +158,10 @@ class ChapterSuite extends FunSuite {
   test("Items") {
     val bundle = (new Bundle).
       add(new SimpleItem(1, "simple1")).
-      add(new Bundle add new SimpleItem(2, "simple2") add new SimpleItem(3, "simple3"))
-    assertResult(1 + 2 + 3)(bundle.price)
-    assertResult("( simple1, ( simple2, simple3 ) )")(bundle.description)
+      add(new Bundle add new SimpleItem(2, "simple2") add new SimpleItem(3, "simple3")).
+      add(new SimpleItem(4, "simple4"))
+    assertResult(1 + 2 + 3 + 4)(bundle.price)
+    assertResult("( simple1, ( simple2, simple3 ), simple4 )")(bundle.description)
   }
 
   //
