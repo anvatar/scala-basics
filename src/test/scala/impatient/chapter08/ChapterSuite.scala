@@ -170,10 +170,57 @@ class ChapterSuite extends FunSuite {
 
   class Point(val x: Double, val y: Double) {
     override def toString: String = "(" + x + ", " + y + ")"
+
+    final override def equals(other: scala.Any): Boolean = {
+      if (other.isInstanceOf[Point]) {
+        val p = other.asInstanceOf[Point]
+        if (p == null) false
+        else p.x == x && p.y == y
+      }
+      else false
+    }
+
+    final override def hashCode(): Int = 13 * x.hashCode() + 17 * y.hashCode()
+
+    // 아래는 InteilliJ IDEA로 생성한 메써드
+    /*
+        def canEqual(other: Any): Boolean = other.isInstanceOf[Point]
+
+        override def equals(other: Any): Boolean = other match {
+          case that: Point =>
+            (that canEqual this) &&
+              x == that.x &&
+              y == that.y
+          case _ => false
+        }
+
+        override def hashCode(): Int = {
+          val state = Seq(x, y)
+          state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+        }
+    */
   }
 
   class LabeledPoint(val label: String, x: Double, y: Double) extends Point(x, y) {
     override def toString: String = "(" + label + ")" + super.toString
+
+    // 아래는 InteilliJ IDEA로 생성한 메써드
+    /*
+        def canEqual(other: Any): Boolean = other.isInstanceOf[LabeledPoint]
+
+        override def equals(other: Any): Boolean = other match {
+          case that: LabeledPoint =>
+            super.equals(that) &&
+              (that canEqual this) &&
+              label == that.label
+          case _ => false
+        }
+
+        override def hashCode(): Int = {
+          val state = Seq(super.hashCode(), label)
+          state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+        }
+    */
   }
 
   test("LabeledPoint") {
@@ -196,12 +243,10 @@ class ChapterSuite extends FunSuite {
 
   test("Shapes") {
     val rectangle = new Rectangle(new Point(100, 200), 100, 75)
-    assertResult(100 + 100 / 2)(rectangle.centerPoint.x)
-    assertResult(200 + 75.0 / 2)(rectangle.centerPoint.y)
+    assertResult(new Point(100 + 100 / 2, 200 + 75.0 / 2))(rectangle.centerPoint)
 
     val circle = new Circle(new Point(200, 150), 100)
-    assertResult(200)(circle.centerPoint.x)
-    assertResult(150)(circle.centerPoint.y)
+    assertResult(new Point(200, 150))(circle.centerPoint)
   }
 
   //
