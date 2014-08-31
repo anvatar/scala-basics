@@ -181,6 +181,25 @@ class ChapterSuite extends FunSuite {
   // 연습문제 8-6
   //
 
+  abstract class Shape {
+    def centerPoint: Point
+  }
+  
+  class Rectangle(val topLeftPoint: Point, val width: Double, val height: Double) extends Shape {
+    override def centerPoint: Point = new Point(topLeftPoint.x + width / 2, topLeftPoint.y + height / 2)
+  }
+  
+  class Circle(val centerPoint: Point, val radius: Double) extends Shape
+
+  test("Shapes") {
+    val rectangle = new Rectangle(new Point(100, 200), 100, 75)
+    assertResult(100 + 100 / 2)(rectangle.centerPoint.x)
+    assertResult(200 + 75.0 / 2)(rectangle.centerPoint.y)
+
+    val circle = new Circle(new Point(200, 150), 100)
+    assertResult(200)(circle.centerPoint.x)
+    assertResult(150)(circle.centerPoint.y)
+  }
 
   //
   // 연습문제 8-7
