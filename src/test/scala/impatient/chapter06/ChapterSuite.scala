@@ -118,6 +118,7 @@ class ChapterSuite extends FunSuite {
     assertResult("♦")(PlayingCardSuits.Diamond.toString)
     assertResult("♥")(PlayingCardSuits.Heart.toString)
     assertResult("♠")(PlayingCardSuits.Spade.toString)
+    assertResult("♣♦♥♠")(PlayingCardSuits.values.mkString(""))
   }
 
   //
