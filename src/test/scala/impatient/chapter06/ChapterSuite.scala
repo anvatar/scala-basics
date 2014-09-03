@@ -42,6 +42,21 @@ class ChapterSuite extends FunSuite {
     override def apply(miles: Double) = miles * 1.609344
   }
 
+  /*
+      수퍼클래스의 생성자를 호출하는 방법을 알고 있으면(8장), 위 코드는 아래와 같이 더 간결하게 작성할 수 있다.
+      (황영주님 소스 리뷰 중 알게 됨)
+
+          class UnitConversion(factor: Double) {
+            def apply(value: Double) = value * factor
+          }
+
+          object InchesToCentimeters extends UnitConversion(2.54)
+
+          object GallonsToLiters extends UnitConversion(3.7854118)
+
+          object MilesToKilometers extends UnitConversion(1.609344)
+   */
+
   test("UnitConversions") {
     assertResult(2.54)(InchesToCentimeters(1))
     assertResult(3.7854118)(GallonsToLiters(1))
