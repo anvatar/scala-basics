@@ -13,16 +13,14 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-1
   //
 
-  def reversedLines(uri: URI): Array[String] = {
+  def getReversedLines(uri: URI): Array[String] = {
     val source = Source.fromFile(uri)
     val lines = source.getLines().toArray.reverse
     source.close()
     lines
   }
 
-  test("reversed lines") {
-    val testInputFilePath = "impatient/scala_school-collections-en.txt"
-
+  test("getReversedLines") {
     val expectedFirstLines = Array(
       "Licensed under the Apache License v2.0.",
       "",
@@ -35,7 +33,7 @@ class ChapterSuite extends FunSuite {
       "Collections"
     )
 
-    val resultLines: Array[String] = reversedLines(ClassLoader.getSystemClassLoader.getResource(testInputFilePath).toURI)
+    val resultLines: Array[String] = getReversedLines(resourceUri("impatient/scala_school-collections-en.txt"))
 
     for ((expected, actual) <- expectedFirstLines zip (resultLines take expectedFirstLines.length))
       assertResult(expected)(actual)
@@ -67,7 +65,7 @@ class ChapterSuite extends FunSuite {
 
   test("convertTabsToSpaces") {
     def prepareTestFile(testResourcePath: String, testFilePath: String) {
-      val source = Source.fromURI(ClassLoader.getSystemClassLoader.getResource(testResourcePath).toURI)
+      val source = Source.fromURI(resourceUri(testResourcePath))
       val lines = source.getLines().toArray
       source.close()
 
@@ -77,13 +75,13 @@ class ChapterSuite extends FunSuite {
     }
 
     // 홀수 줄은 탭으로 구분된 라인, 짝수 줄은 같은 내용인데 공백문자로 구분된 라인으로 구성된 텍스트 파일
-    val testFilePath = "/tmp/with-tabs-then-spaces.txt"
+    val tempFilePath = "/tmp/with-tabs-then-spaces.txt"
 
-    prepareTestFile("impatient/with-tabs-then-spaces.txt", testFilePath)
+    prepareTestFile("impatient/with-tabs-then-spaces.txt", tempFilePath)
 
-    convertTabsToSpaces(testFilePath, 4)
+    convertTabsToSpaces(tempFilePath, 4)
 
-    val source = Source.fromFile(testFilePath)
+    val source = Source.fromFile(tempFilePath)
     val lines = source.getLines().toArray
     source.close()
 
@@ -130,4 +128,11 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-10
   //
 
+
+  //
+  // 유틸리티 함수
+  //
+
+  private def resourceUri(resourceFilePath: String): URI =
+    ClassLoader.getSystemClassLoader.getResource(resourceFilePath).toURI
 }
