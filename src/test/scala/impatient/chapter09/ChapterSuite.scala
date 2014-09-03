@@ -93,6 +93,14 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-3
   //
 
+  def findLongWords(source: Source, longerThan: Int) =
+    for (l <- source.getLines(); w <- l.split( """\s""") if w.length > longerThan) yield w
+
+  test("findLongWords") {
+    val source = Source.fromURI(resourceUri("impatient/scala_school-collections-en.txt"))
+    for (w <- findLongWords(source, 12 - 1)) assert(w.length >= 12)
+    source.close()
+  }
 
   //
   // 연습문제 9-4
