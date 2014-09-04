@@ -1,4 +1,4 @@
-package chap6
+package chap06
 
 /**
  * Created by kwonyoungjoo on 14. 9. 1..
