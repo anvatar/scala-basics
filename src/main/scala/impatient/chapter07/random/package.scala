@@ -9,7 +9,7 @@ package object random {
 
   def nextInt(): Int = next().toInt
 
-  def nextDouble(): Double = next().toDouble
+  def nextDouble(): Double = (next().toInt - Int.MinValue.toLong).toDouble / (Int.MaxValue - Int.MinValue.toLong)
 
   def setSeed(seed: Int): Unit = {
     previous = seed
