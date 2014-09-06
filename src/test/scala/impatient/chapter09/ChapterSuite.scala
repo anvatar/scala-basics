@@ -234,13 +234,13 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-7
   //
 
-  def isNotFloatingPointNumber(value: String): Boolean = {
-    """^-?\d+\.\d+(E(\+|-)?\d+)?$""".r.findFirstIn(value).isEmpty
+  def isFloatingPointNumber(value: String): Boolean = {
+    """^-?\d+\.\d+(E(\+|-)?\d+)?$""".r.findFirstIn(value).isDefined
   }
 
-  test("isNotFloatingPointNumber") {
+  test("filter out isFloatingPointNumber") {
     val source = Source.fromURI(resourceUri("impatient/floating-point-numbers.txt"))
-    assertResult(Array[String]())(source.mkString.split("""\s+""").filter(isNotFloatingPointNumber))
+    assertResult(Array[String]())(source.mkString.split("""\s+""").filterNot(isFloatingPointNumber))
     source.close()
   }
 
