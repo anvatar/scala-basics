@@ -240,7 +240,7 @@ class ChapterSuite extends FunSuite {
 
   test("filter out isFloatingPointNumber") {
     val source = Source.fromURI(resourceUri("impatient/floating-point-numbers.txt"))
-    assertResult(Array[String]())(source.mkString.split("""\s+""").filterNot(isFloatingPointNumber))
+    assertResult(Array[String]())(source.mkString.split( """\s+""").filterNot(isFloatingPointNumber))
     source.close()
   }
 
@@ -248,6 +248,16 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-8
   //
 
+  val imageSourcePattern = """<img.*\ssrc="([^"]+)".*>""".r
+
+  test("imageSourcePattern") {
+    val source = Source.fromURL("http://www.daum.net")
+    for (imageSourcePattern(imageUrl) <- imageSourcePattern.findAllIn(source.mkString)) {
+      println(imageUrl)
+      // wget이나 curl로 HTTP 헤더를 얻어와 Content-Type이 image인지 확인해보고 싶었으나 잘 안 되었음
+    }
+    source.close()
+  }
 
   //
   // 연습문제 9-9
