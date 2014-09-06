@@ -175,6 +175,52 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-5
   //
 
+  def dumpPowerOfTwos(maxExponent: Int, filePath: String) = {
+    val powerOfTwosTo20 = for (i <- 0 to maxExponent) yield math.pow(2, i).toLong
+    val maxLength = powerOfTwosTo20.last.toString.length
+
+    val out = new java.io.PrintWriter(filePath)
+    for (l <- powerOfTwosTo20)
+      out.println(("%" + maxLength + "d    %s").format(l, (1.toDouble / l).toString))
+    out.close()
+  }
+
+  test("dumpPowerOfTwos") {
+    val expectedLines = Array(
+      "      1    1.0",
+      "      2    0.5",
+      "      4    0.25",
+      "      8    0.125",
+      "     16    0.0625",
+      "     32    0.03125",
+      "     64    0.015625",
+      "    128    0.0078125",
+      "    256    0.00390625",
+      "    512    0.001953125",
+      "   1024    9.765625E-4",
+      "   2048    4.8828125E-4",
+      "   4096    2.44140625E-4",
+      "   8192    1.220703125E-4",
+      "  16384    6.103515625E-5",
+      "  32768    3.0517578125E-5",
+      "  65536    1.52587890625E-5",
+      " 131072    7.62939453125E-6",
+      " 262144    3.814697265625E-6",
+      " 524288    1.9073486328125E-6",
+      "1048576    9.5367431640625E-7"
+    )
+
+    val tempFilePath = "/tmp/dump-power-of-twos.txt"
+    dumpPowerOfTwos(20, tempFilePath)
+
+    val source = Source.fromFile(tempFilePath)
+    val actualLines = source.getLines().toArray
+    source.close()
+
+    assertResult(expectedLines.length)(actualLines.length)
+    for (i <- 0 until expectedLines.length)
+      assertResult(expectedLines(i), "at LINE " + (i + 1))(actualLines(i))
+  }
 
   //
   // 연습문제 9-6
