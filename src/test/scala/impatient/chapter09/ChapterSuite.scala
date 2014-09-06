@@ -226,11 +226,23 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-6
   //
 
+  /*
+      문제의 의도와, 어떤 패턴을 찾으라는 건지 모르겠음
+   */
 
   //
   // 연습문제 9-7
   //
 
+  def isNotFloatingPointNumber(value: String): Boolean = {
+    """^-?\d+\.\d+(E(\+|-)?\d+)?$""".r.findFirstIn(value).isEmpty
+  }
+
+  test("isNotFloatingPointNumber") {
+    val source = Source.fromURI(resourceUri("impatient/floating-point-numbers.txt"))
+    assertResult(Array[String]())(source.mkString.split("""\s+""").filter(isNotFloatingPointNumber))
+    source.close()
+  }
 
   //
   // 연습문제 9-8
