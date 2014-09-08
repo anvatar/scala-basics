@@ -282,11 +282,46 @@ class ChapterSuite extends FunSuite {
     assertResult(expected)(actual)
   }
 
-
   //
   // 연습문제 9-10
   //
 
+  test("friendship") {
+    def checkFriendship(friends: Array[Person]) {
+      assert(friends.length == 3)
+      assert(friends(0).friends.length == 2)
+      assert(friends(0).friends(0) == friends(1))
+      assert(friends(0).friends(1) == friends(2))
+    }
+
+    import java.io._
+
+    val tempFilePath = "/tmp/friends.obj"
+
+    {
+      val p0 = new Person
+      val p1 = new Person
+      val p2 = new Person
+
+      p0 addFriend p1
+      p0 addFriend p2
+
+      val friends = Array(p0, p1, p2)
+      checkFriendship(friends)
+
+      val out = new ObjectOutputStream(new FileOutputStream(tempFilePath))
+      out.writeObject(friends)
+      out.close()
+    }
+
+    {
+      val in = new ObjectInputStream(new FileInputStream(tempFilePath))
+      val friends = in.readObject().asInstanceOf[Array[Person]]
+      in.close()
+
+      checkFriendship(friends)
+    }
+  }
 
   //
   // 유틸리티 함수
