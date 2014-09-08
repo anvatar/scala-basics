@@ -263,6 +263,25 @@ class ChapterSuite extends FunSuite {
   // 연습문제 9-9
   //
 
+  import java.io.File
+
+  def subdirs(dir: File): Iterator[File] = {
+    val children = dir.listFiles().filter(_.isDirectory)
+    children.toIterator ++ children.toIterator.flatMap(subdirs)
+  }
+
+  def findFilesWithExtension(targetDirectory: String, extension: String) =
+    subdirs(new File(targetDirectory)).flatMap(_.listFiles).filter(_.isFile).filter(_.getName.endsWith("." + extension))
+
+  test("findFilesWithExtension") {
+    import sys.process._
+
+    val expected = ("find /Users/anvatar/home/idea/scala-basics -name *.class" #| "wc -l").!!.trim.toInt
+    val actual = findFilesWithExtension("/Users/anvatar/home/idea/scala-basics", "class").length
+
+    assertResult(expected)(actual)
+  }
+
 
   //
   // 연습문제 9-10
