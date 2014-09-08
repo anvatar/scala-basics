@@ -276,8 +276,10 @@ class ChapterSuite extends FunSuite {
   test("findFilesWithExtension") {
     import sys.process._
 
-    val expected = ("find /Users/anvatar/home/idea/scala-basics -name *.class" #| "wc -l").!!.trim.toInt
-    val actual = findFilesWithExtension("/Users/anvatar/home/idea/scala-basics", "class").length
+    val targetDirectoryPath = "/Users/anvatar/home/idea/scala-basics"
+
+    val expected = (("find " + targetDirectoryPath + " -name *.class") #| "wc -l").!!.trim.toInt
+    val actual = findFilesWithExtension(targetDirectoryPath, "class").length
 
     assertResult(expected)(actual)
   }
