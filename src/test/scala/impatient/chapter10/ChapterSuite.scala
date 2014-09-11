@@ -1,5 +1,7 @@
 package impatient.chapter10
 
+import java.awt.Point
+
 import org.scalatest.FunSuite
 
 class ChapterSuite extends FunSuite {
@@ -41,6 +43,22 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-2
   //
 
+  class OrderedPoint(x: Int, y: Int) extends java.awt.Point(x, y) with math.Ordered[java.awt.Point] {
+    override def compare(that: Point): Int = {
+      val temp = this.getX compare that.getX
+      if (temp == 0) this.getY compare that.getY
+      else temp
+    }
+  }
+
+  test("OrderedPoint") {
+    assert(new OrderedPoint(0, 0) <= new OrderedPoint(0, 0))
+    assert(new OrderedPoint(0, 0) >= new OrderedPoint(0, 0))
+    assert(new OrderedPoint(0, 0) < new OrderedPoint(1, 1))
+    assert(new OrderedPoint(0, 0) > new OrderedPoint(-1, -1))
+    assert(new OrderedPoint(0, 0) < new OrderedPoint(1, -1))
+    assert(new OrderedPoint(0, 0) > new OrderedPoint(-1, 1))
+  }
 
   //
   // 연습문제 10-3
