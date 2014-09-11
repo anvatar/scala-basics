@@ -64,6 +64,19 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-3
   //
 
+  /*
+      src/test/resources/impatient/ 아래의 BitSet.mm(FreeMind)과 BitSet.png 파일에 일부 슈퍼클래스와 트레이트를 표현함
+
+      이 다이어그램에 따르면, (DFS)
+
+          lin(scala.collection.immutable.BitSet) =
+              ... " AbstractIterable " Iterable " IterableLike " Equals " GenIterable " GenIterableLike "
+              AbstractTraversable " Traversable " GenTraversable " GenericTraversableTemplate " TraversableLike "
+              GenTraversableLike " Parallelizable " TraversableOnce " GenTraversableOnce " FilterMonadic " HasNewBuilder
+
+      와 같이 전개되고, 이는 http://www.scala-lang.org/api/current/#scala.collection.immutable.BitSet 에 "Inherited" 항목에
+      나타나는 순서와 같다.
+   */
 
   //
   // 연습문제 10-4
