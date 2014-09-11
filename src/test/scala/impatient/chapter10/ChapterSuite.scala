@@ -1,8 +1,11 @@
 package impatient.chapter10
 
 import java.awt.Point
+import java.beans.{PropertyChangeEvent, PropertyChangeListener}
 
 import org.scalatest.FunSuite
+
+import scala.collection.mutable.ArrayBuffer
 
 class ChapterSuite extends FunSuite {
 
@@ -118,6 +121,93 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-5
   //
 
+  trait PropertyChangeSupport {
+    val propertyChangeSupport = new java.beans.PropertyChangeSupport(this)
+
+    def addPropertyChangeListener(listener: PropertyChangeListener): Unit = propertyChangeSupport.addPropertyChangeListener(listener)
+
+    def removePropertyChangeListener(listener: PropertyChangeListener): Unit = propertyChangeSupport.removePropertyChangeListener(listener)
+
+    def getPropertyChangeListeners: Array[PropertyChangeListener] = propertyChangeSupport.getPropertyChangeListeners
+
+    def addPropertyChangeListener(propertyName: String, listener: PropertyChangeListener): Unit = propertyChangeSupport.addPropertyChangeListener(propertyName, listener)
+
+    def removePropertyChangeListener(propertyName: String, listener: PropertyChangeListener): Unit = propertyChangeSupport.removePropertyChangeListener(propertyName, listener)
+
+    def getPropertyChangeListeners(propertyName: String): Array[PropertyChangeListener] = propertyChangeSupport.getPropertyChangeListeners(propertyName)
+
+    def firePropertyChange(propertyName: String, oldValue: scala.Any, newValue: scala.Any): Unit = propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue)
+
+    def firePropertyChange(propertyName: String, oldValue: Int, newValue: Int): Unit = propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue)
+
+    def firePropertyChange(propertyName: String, oldValue: Boolean, newValue: Boolean): Unit = propertyChangeSupport.firePropertyChange(propertyName, oldValue, newValue)
+
+    def firePropertyChange(evt: PropertyChangeEvent): Unit = propertyChangeSupport.firePropertyChange(evt)
+
+    def fireIndexedPropertyChange(propertyName: String, index: Int, oldValue: scala.Any, newValue: scala.Any): Unit = propertyChangeSupport.fireIndexedPropertyChange(propertyName, index, oldValue, newValue)
+
+    def fireIndexedPropertyChange(propertyName: String, index: Int, oldValue: Int, newValue: Int): Unit = propertyChangeSupport.fireIndexedPropertyChange(propertyName, index, oldValue, newValue)
+
+    def fireIndexedPropertyChange(propertyName: String, index: Int, oldValue: Boolean, newValue: Boolean): Unit = propertyChangeSupport.fireIndexedPropertyChange(propertyName, index, oldValue, newValue)
+
+    def hasListeners(propertyName: String): Boolean = propertyChangeSupport.hasListeners(propertyName)
+  }
+
+  class PropertyChangeSupportedPoint(x: Int, y: Int) extends java.awt.Point(x, y) with PropertyChangeSupport {
+    override def setLocation(p: Point): Unit = {
+      val oldLocation = getLocation
+      super.setLocation(p)
+      firePropertyChange(oldLocation)
+    }
+
+    override def setLocation(x: Int, y: Int): Unit = {
+      val oldLocation = getLocation
+      super.setLocation(x, y)
+      firePropertyChange(oldLocation)
+    }
+
+    override def setLocation(x: Double, y: Double): Unit = {
+      val oldLocation = getLocation
+      super.setLocation(x, y)
+      firePropertyChange(oldLocation)
+    }
+
+    override def move(x: Int, y: Int): Unit = {
+      val oldLocation = getLocation
+      super.move(x, y)
+      firePropertyChange(oldLocation)
+    }
+
+    override def translate(dx: Int, dy: Int): Unit = {
+      val oldLocation = getLocation
+      super.translate(dx, dy)
+      firePropertyChange(oldLocation)
+    }
+
+    private def firePropertyChange(oldLocation: Point) {
+      firePropertyChange("x", oldLocation.getX, getX)
+      firePropertyChange("y", oldLocation.getY, getY)
+    }
+  }
+
+  test("PropertyChangeSupport") {
+    val listener = new PropertyChangeListener {
+      val changedPropertyNames = ArrayBuffer[String]()
+
+      override def propertyChange(evt: PropertyChangeEvent): Unit = {
+        changedPropertyNames += evt.getPropertyName
+      }
+    }
+
+    val point = new PropertyChangeSupportedPoint(0, 0)
+    point.addPropertyChangeListener(listener)
+
+    point.move(1, 1)
+    assertResult(Array("x", "y"))(listener.changedPropertyNames)
+
+    point.translate(1, 0)
+    assertResult(Array("x", "y", "x"))(listener.changedPropertyNames)
+  }
 
   //
   // 연습문제 10-6
