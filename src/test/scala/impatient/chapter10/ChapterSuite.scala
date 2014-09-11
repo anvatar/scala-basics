@@ -213,6 +213,13 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-6
   //
 
+  /*
+      자바에서는 JContainer 클래스가 JComponent 클래스와 Container 클래스를 동시에 확장할 수 없다.
+      JComponent와 Container에 구현되어 있는 메써드를 상속받아 이용하고 싶은 상황이므로 어느 한 쪽을 인터페이스로 변경하기 곤란하다.
+
+      스칼라에서는 Component - JComponent 계층은 클래스 상속 관계를 유지하고,
+      Container - JContainer 계층은 ContainerLike - JContainerLike 계층 구조의 트레이트로 변경하면 될 것 같다.
+   */
 
   //
   // 연습문제 10-7
