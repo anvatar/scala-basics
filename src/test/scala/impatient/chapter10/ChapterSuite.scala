@@ -82,6 +82,37 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-4
   //
 
+  trait Logger {
+    def log(msg: String)
+  }
+
+  trait CryptoLogger extends Logger {
+    var caesarDistance = 3
+
+    abstract override def log(msg: String): Unit = {
+      super.log(msg.map(c => (c + caesarDistance).toChar))
+    }
+  }
+
+  test("CryptoLogger") {
+    class MockLogger extends Logger {
+      var lastMessage = ""
+
+      def log(msg: String): Unit = {
+        lastMessage = msg
+      }
+    }
+
+    val mockLogger = new MockLogger with CryptoLogger
+
+    mockLogger.log("abcDEF")
+    assertResult("defGHI")(mockLogger.lastMessage)
+
+    mockLogger.caesarDistance = -3
+
+    mockLogger.log("defGHI")
+    assertResult("abcDEF")(mockLogger.lastMessage)
+  }
 
   //
   // 연습문제 10-5
