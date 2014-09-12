@@ -225,6 +225,9 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-7
   //
 
+  /*
+      TODO: 건너뜀
+   */
 
   //
   // 연습문제 10-8
