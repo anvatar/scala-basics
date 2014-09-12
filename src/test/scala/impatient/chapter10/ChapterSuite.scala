@@ -233,6 +233,48 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-8
   //
 
+  trait BufferedInputStream extends java.io.InputStream {
+    val bufferSize = 8 * 1024
+    private val buffer = ArrayBuffer[Int]()
+
+    abstract override def read(): Int = {
+      if (buffer.isEmpty) {
+        var res = 0
+        while (res != -1 && buffer.length < bufferSize) {
+          res = super.read()
+          if (res != -1) buffer += res
+        }
+      }
+
+      if (buffer.isEmpty) -1
+      else buffer.remove(0)
+    }
+  }
+
+  test("BufferedInputStream") {
+    import java.io.{BufferedInputStream => _, _}
+
+    class MockInputStream(str: String) extends InputStream {
+      val data = str.toCharArray.toBuffer
+
+      override def read(): Int = {
+        if (data.isEmpty) -1
+        else data.remove(0)
+      }
+    }
+
+    val str = "1234567890" * 2000
+
+    val inputStream = new MockInputStream(str) with BufferedInputStream
+    for (c <- str) {
+      val read = inputStream.read()
+      assertResult(c)(read.toChar)
+
+      val readDataLength = str.length - inputStream.data.length
+      assert(readDataLength == str.length || readDataLength % inputStream.bufferSize == 0)
+    }
+    inputStream.close()
+  }
 
   //
   // 연습문제 10-9
