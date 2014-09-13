@@ -278,6 +278,27 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-9
   //
 
+  class LoggedMockInputStream(str: String) extends MockInputStream(str) with MockLogger {
+    override def read(): Int = {
+      val c = super.read()
+      if (c != -1) log("read: [" + c.toChar + "]")
+      c
+    }
+  }
+
+  test("BufferedInputStream with Logger") {
+    val str = "1234567890" * 2000
+
+    val inputStream = new LoggedMockInputStream(str) with BufferedInputStream
+    for (c <- str) {
+      val read = inputStream.read()
+      assertResult(c)(read.toChar)
+
+      val readDataLength = inputStream.messages.length
+      assert(readDataLength == str.length || readDataLength % inputStream.bufferSize == 0)
+    }
+    inputStream.close()
+  }
 
   //
   // 연습문제 10-10
