@@ -251,18 +251,16 @@ class ChapterSuite extends FunSuite {
     }
   }
 
-  test("BufferedInputStream") {
-    import java.io.{BufferedInputStream => _, _}
+  class MockInputStream(str: String) extends java.io.InputStream {
+    val data = str.toCharArray.toBuffer
 
-    class MockInputStream(str: String) extends InputStream {
-      val data = str.toCharArray.toBuffer
-
-      override def read(): Int = {
-        if (data.isEmpty) -1
-        else data.remove(0)
-      }
+    override def read(): Int = {
+      if (data.isEmpty) -1
+      else data.remove(0)
     }
+  }
 
+  test("BufferedInputStream") {
     val str = "1234567890" * 2000
 
     val inputStream = new MockInputStream(str) with BufferedInputStream
