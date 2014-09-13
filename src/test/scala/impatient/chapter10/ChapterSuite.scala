@@ -97,24 +97,24 @@ class ChapterSuite extends FunSuite {
     }
   }
 
-  test("CryptoLogger") {
-    class MockLogger extends Logger {
-      var lastMessage = ""
+  trait MockLogger extends Logger {
+    val messages = new ArrayBuffer[String]()
 
-      def log(msg: String): Unit = {
-        lastMessage = msg
-      }
+    def log(msg: String): Unit = {
+      messages += msg
     }
+  }
 
+  test("CryptoLogger") {
     val mockLogger = new MockLogger with CryptoLogger
 
     mockLogger.log("abcDEF")
-    assertResult("defGHI")(mockLogger.lastMessage)
+    assertResult("defGHI")(mockLogger.messages.last)
 
     mockLogger.caesarDistance = -3
 
     mockLogger.log("defGHI")
-    assertResult("abcDEF")(mockLogger.lastMessage)
+    assertResult("abcDEF")(mockLogger.messages.last)
   }
 
   //
