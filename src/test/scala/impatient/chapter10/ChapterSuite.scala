@@ -304,4 +304,36 @@ class ChapterSuite extends FunSuite {
   // 연습문제 10-10
   //
 
+  class IterableInputStream(private val in: java.io.InputStream) extends java.io.InputStream with Iterable[Byte] {
+    override def read(): Int = in.read()
+
+    override def iterator: Iterator[Byte] = new MyIterator
+
+    override def close(): Unit = {
+      in.close()
+      super.close()
+    }
+
+    private class MyIterator extends Iterator[Byte] {
+      var ahead = read()
+
+      override def hasNext: Boolean = ahead != -1
+
+      override def next(): Byte = {
+        val res = ahead
+        ahead = read()
+        res.toByte
+      }
+    }
+  }
+
+  test("IterableInputStream") {
+    val str = "1234567890" * 2000
+    val strBuffer = str.toBuffer
+
+    val inputStream = new IterableInputStream(new MockInputStream(str))
+    for (c <- inputStream)
+      assertResult(strBuffer.remove(0))(c)
+    inputStream.close()
+  }
 }
