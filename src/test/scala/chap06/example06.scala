@@ -48,6 +48,8 @@ class example06 extends FunSuite {
     assertResult(1.609)(milesToKilometers.conversion(1))
   }
 
+
+
   /*
     example 6.3
    */
