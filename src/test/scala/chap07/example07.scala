@@ -11,33 +11,21 @@ package chap07
    */
 
 
-
    package  object randomLinear {
-     var seed: Int = 0
-     val a: Int = 1664525
-     val b: Int = 1013904223
-     val n: Int = 32
+     private var seed: Int = 0
+     private val a: Int = 1664525
+     private val b: Int = 1013904223
+     private val n: Int = 32
 
-     def next(): Double = {
-       seed * a + (b % 2)
-     }
+     def next(): Double = ( seed * a + b )  % math.pow(2, n)
 
-     def nextInt(): Int = {
-       next().toInt
-     }
+     def nextInt(): Int = next().toInt
 
-     def nextDouble(): Double = {
-       next()
-     }
+     def nextDouble(): Double = next()
 
-     def setSeed(seed: Int) {
+     def setSeed(seed: Int){
        this.seed = seed
      }
    }
-
-  class randomTest {
-    randomLinear.setSeed(10)
-    println(randomLinear.nextDouble())
-  }
 
 
