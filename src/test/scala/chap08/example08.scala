@@ -19,11 +19,11 @@ class example08 extends FunSuite{
 
     def addItem(item:Item){
       this.items :+ item
+      println ( items.length)
     }
 
     def price = {
       var sumPrice:Double = 0 ;
-      println(items.length)
       for(item <- items) { sumPrice += item.price }
 
       sumPrice
