@@ -141,7 +141,7 @@ class ChapterSuite extends FunSuite {
 
   class SimpleItem(val price: Double, val description: String) extends Item
 
-  class Bundle private(val items: Array[Item]) extends Item {
+  class Bundle private(private val items: Array[Item]) extends Item {
     def this() = this(Array[Item]())
 
     def add(item: Item): Bundle = new Bundle(items :+ item)
