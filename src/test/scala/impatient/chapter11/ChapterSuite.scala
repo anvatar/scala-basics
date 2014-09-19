@@ -196,6 +196,68 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-6
   //
 
+  class ASCIIArt(private val lines: Array[String]) {
+    private val width: Int = lines.map(_.length).max
+
+    def +(other: ASCIIArt) = {
+      val height = Array(this, other).map(_.lines.length).max
+
+      val thisLines = padTopBottom(this.lines, height).map(fillRight(_, this.width))
+      val otherLines = padTopBottom(other.lines, height)
+
+      new ASCIIArt((for (i <- 0 until height) yield thisLines(i) + " " + otherLines(i)).toArray)
+    }
+
+    def /(other: ASCIIArt) = {
+      val width = Array(this.width, other.width).max
+
+      def paddedLines(lines: Array[String]) = lines.map(padLeft(_, (width - this.width) / 2))
+
+      new ASCIIArt(paddedLines(this.lines) ++ Array("") ++ paddedLines(other.lines))
+    }
+
+    override def toString: String = lines.mkString("\n")
+
+    private def padTopBottom(lines: Array[String], height: Int): Array[String] = {
+      def emptyLines(n: Int) = (for (i <- 1 to n) yield "").toArray
+
+      val top = (height - lines.length) / 2
+      val bottom = height - top - lines.length
+
+      emptyLines(top) ++ lines ++ emptyLines(bottom)
+    }
+
+    private def padLeft(line: String, pads: Int): String = " " * pads ++ line
+
+    private def fillRight(line: String, width: Int): String = line ++ " " * (width - line.length)
+  }
+
+  object ASCIIArt {
+    def apply(str: String) = new ASCIIArt(str.split("\n"))
+  }
+
+  test("ASCIIArt") {
+    val cat = ASCIIArt(
+      """
+        | /\_/\
+        |( ' ' )
+        |(  -  )
+        | | | |
+        |(__|__)
+      """.stripMargin.trim)
+
+    val bubble = ASCIIArt(
+      """
+        |  -----
+        | / Hello \
+        |<  Scala |
+        | \ Coder /
+        |   -----
+      """.stripMargin.trim)
+
+    println(cat + bubble)
+    println(cat / bubble)
+  }
 
   //
   // 연습문제 11-7
