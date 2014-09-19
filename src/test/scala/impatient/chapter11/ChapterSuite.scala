@@ -103,6 +103,47 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-4
   //
 
+  /*
+      / 연산자는 정확히 나누어 떨어지지 않을 경우에 대한 처리가 애매하므로 제공하지 않는 것이 낫다.
+   */
+
+  class Money private(asCents: Int) {
+    val dollars: Int = abs(asCents) / 100 * sign(asCents)
+    val cents: Int = abs(asCents) % 100 * sign(asCents)
+
+    def +(other: Money): Money = Money(this.dollars + other.dollars, this.cents + other.cents)
+
+    def -(other: Money): Money = Money(this.dollars - other.dollars, this.cents - other.cents)
+
+    def *(factor: Int): Money = Money(this.dollars * factor, this.cents * factor)
+
+    def ==(other: Money): Boolean = (this.dollars, this.cents) ==(other.dollars, other.cents)
+
+    def <(other: Money): Boolean = if (this.dollars == other.dollars) this.cents < other.cents else this.dollars < other.dollars
+
+    override def toString = "$" + (if (asCents < 0) "-" else "") + f"${abs(dollars)}%d.${abs(cents)}%02d"
+
+    private def sign(a: Int) = if (a > 0) 1 else if (a < 0) -1 else 0
+  }
+
+  object Money {
+    def apply(d: Int, c: Int) = new Money(d * 100 + c)
+  }
+
+  test("Money") {
+    assert(Money(1, 75) + Money(0, 50) == Money(2, 25))
+
+    assert(Money(0, 50) - Money(2, 25) == Money(-1, -75))
+    assert(Money(2, 25) - Money(1, 75) == Money(0, 50))
+
+    assert(Money(2, 25) * 5 == Money(11, 25))
+    assert(Money(2, 25) * -5 == Money(-11, -25))
+
+    assert(Money(0, 75) - Money(0, 25) * 4 == Money(0, -25))
+
+    assert(Money(0, -25) * 5 == Money(-1, -25))
+    assert(Money(0, 50) < Money(1, 75))
+  }
 
   //
   // 연습문제 11-5
