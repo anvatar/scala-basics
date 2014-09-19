@@ -2,6 +2,7 @@ package impatient.chapter11
 
 import org.scalatest.FunSuite
 
+import scala.collection.mutable.ArrayBuffer
 import scala.math.abs
 
 class ChapterSuite extends FunSuite {
@@ -149,6 +150,47 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-5
   //
 
+  class Table {
+
+    private class Row {
+      private val cells = ArrayBuffer[String]()
+
+      def append(cell: String) = cells += cell
+
+      def produce(): String = "  <tr> " + cells.map(cell => "<td>" + cell + "</td>").mkString(" ") + " </tr>"
+    }
+
+    private val rows = ArrayBuffer[Row]()
+
+    def |(cell: String) = {
+      if (rows.isEmpty) rows += new Row
+      rows.last.append(cell)
+      this
+    }
+
+    def ||(cell: String) = {
+      rows += new Row
+      this | cell
+    }
+
+    def produce(): String = "<table>\n" + rows.map(_.produce()).mkString("\n") + "\n</table>"
+  }
+
+  object Table {
+    def apply() = new Table
+  }
+
+  test("HTML Table") {
+    val expected =
+      """
+        |<table>
+        |  <tr> <td>Java</td> <td>Scala</td> </tr>
+        |  <tr> <td>Gosling</td> <td>Odersky</td> </tr>
+        |  <tr> <td>JVM</td> <td>JVM, .NET</td> </tr>
+        |</table>
+      """.stripMargin.trim
+    assertResult(expected)((Table() | "Java" | "Scala" || "Gosling" | "Odersky" || "JVM" | "JVM, .NET").produce())
+  }
 
   //
   // 연습문제 11-6
