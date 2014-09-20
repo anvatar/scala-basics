@@ -263,6 +263,78 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-7
   //
 
+  class BitSequence(longVal: Long) {
+    private val bits = new Array[Boolean](BitSequence.numBits)
+
+    initWith(
+      if (longVal >= 0) BitSequence.positiveLongToBits(abs(longVal))
+      else BitSequence.increment(BitSequence.negate(BitSequence.positiveLongToBits(abs(longVal))))
+    )
+    bits(BitSequence.numBits - 1) = longVal < 0
+
+    def apply(index: Int): Boolean = bits(index)
+
+    def update(index: Int, bit: Boolean): Unit = bits(index) = bit
+
+    def toLong: Long = {
+      if (bits(BitSequence.numBits - 1)) BitSequence.bitsToPositiveLong(BitSequence.negate(BitSequence.decrement(bits))) * -1
+      else BitSequence.bitsToPositiveLong(bits)
+    }
+
+    override def toString: String = bits.map(b => if (b) 1 else 0).reverse.mkString("[", "", "]")
+
+    private def initWith(newBits: Array[Boolean]): Unit =
+      for (i <- 0 until BitSequence.numBits) bits(i) = newBits(i)
+  }
+
+  object BitSequence {
+    private val numBits = 64
+
+    def apply(longVal: Long): BitSequence = new BitSequence(longVal)
+
+    private def positiveLongToBits(longVal: Long): Array[Boolean] =
+      (for (i <- 0 until numBits) yield (longVal & 1L << i) > 0).toArray
+
+    private def bitsToPositiveLong(bits: Array[Boolean]): Long =
+      (for (i <- 0 until numBits) yield (if (bits(i)) 1 else 0) * (1L << i)).sum
+
+    private def negate(bits: Array[Boolean]): Array[Boolean] = bits.map(!_)
+
+    private def increment(bits: Array[Boolean]): Array[Boolean] = incrementOrDecrement(bits, 1)
+
+    private def decrement(bits: Array[Boolean]): Array[Boolean] = incrementOrDecrement(bits, -1)
+
+    private def incrementOrDecrement(bits: Array[Boolean], delta: Int): Array[Boolean] = {
+      val newBits = new Array[Boolean](64)
+
+      var inc = delta
+      var carry = 0
+      for (i <- 0 until numBits) {
+        val sum = (if (bits(i)) 1 else 0) + inc + carry
+
+        newBits(i) = if (sum % 2 == 0) false else true
+        inc = 0
+        carry = if (sum >= 2) 1 else if (sum < 0) -1 else 0
+      }
+
+      newBits
+    }
+  }
+
+  test("BitSequence") {
+    for (i <- 0 until 64) assert(!BitSequence(0)(i), i)
+
+    assert(BitSequence(1)(0))
+    assert(BitSequence(2)(1))
+    assert(BitSequence(1024)(10))
+
+    def checkEncodingDecoding(longVal: Long): Unit = assert(BitSequence(longVal).toLong == longVal)
+
+    checkEncodingDecoding(Long.MinValue)
+    checkEncodingDecoding(Long.MaxValue)
+    checkEncodingDecoding(Int.MinValue)
+    checkEncodingDecoding(Int.MaxValue)
+  }
 
   //
   // 연습문제 11-8
