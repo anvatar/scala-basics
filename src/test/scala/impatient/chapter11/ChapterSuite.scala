@@ -340,6 +340,67 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-8
   //
 
+  class Matrix(val rows: Int, val cols: Int, private val data: Array[Int]) {
+    def apply(row: Int, col: Int): Int = data(row * cols + col)
+
+    def +(other: Matrix): Matrix = Matrix(rows, cols, (for (r <- 0 until this.rows; c <- 0 until this.cols) yield this(r, c) + other(r, c)).toArray)
+
+    def *(other: Matrix): Matrix =
+      Matrix(this.rows, other.cols, (for (r <- 0 until this.rows; c <- 0 until other.cols) yield (for (i <- 0 until this.cols) yield this(r, i) * other(i, c)).sum).toArray)
+
+    def *(scalar: Int): Matrix = Matrix(rows, cols, data.map(_ * scalar))
+
+    override def toString: String = data.grouped(cols).map(row => row.mkString("( ", " ", " )")).mkString("\n")
+
+    /*
+     * IntelliJ IDEA로 생성
+     */
+
+    def canEqual(other: Any): Boolean = other.isInstanceOf[Matrix]
+
+    override def equals(other: Any): Boolean = {
+      other match {
+        case that: Matrix =>
+          (that canEqual this) &&
+            rows == that.rows &&
+            cols == that.cols &&
+            data.toBuffer == that.data.toBuffer // 수정됨
+        case _ => false
+      }
+    }
+
+    override def hashCode(): Int = {
+      val state = Seq(rows, cols, data)
+      state.map(_.hashCode()).foldLeft(0)((a, b) => 31 * a + b)
+    }
+  }
+
+  object Matrix {
+    def apply(rows: Int, cols: Int, data: Array[Int]) = new Matrix(rows, cols, data)
+  }
+
+  test("Matrix") {
+    val mat1 = Matrix(3, 3, Array(1, 3, 7, 1, 0, 0, 1, 2, 2))
+    val mat2 = Matrix(3, 3, Array(0, 0, 5, 7, 5, 0, 2, 1, 1))
+    val mat3 = Matrix(3, 3, Array(1, 3, 12, 8, 5, 0, 3, 3, 3))
+    assert(mat1 + mat2 == mat3)
+    println(ASCIIArt(mat1.toString) + ASCIIArt("+") + ASCIIArt(mat2.toString) + ASCIIArt("=") + ASCIIArt(mat3.toString))
+
+    println()
+
+    val mat4 = Matrix(2, 3, Array(1, 0, 2, -1, 3, 1))
+    val mat5 = Matrix(3, 2, Array(3, 1, 2, 1, 1, 0))
+    val mat6 = Matrix(2, 2, Array(5, 1, 4, 2))
+    assert(mat4 * mat5 == mat6)
+    println(ASCIIArt(mat4.toString) + ASCIIArt("*") + ASCIIArt(mat5.toString) + ASCIIArt("=") + ASCIIArt(mat6.toString))
+
+    println()
+
+    val mat7 = Matrix(2, 3, Array(1, 8, -3, 4, -2, 5))
+    val mat8 = Matrix(2, 3, Array(2, 16, -6, 8, -4, 10))
+    assert(mat7 * 2 == mat8)
+    println(ASCIIArt(mat7.toString) + ASCIIArt("* 2 =") + ASCIIArt(mat8.toString))
+  }
 
   //
   // 연습문제 11-9
