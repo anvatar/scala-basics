@@ -435,4 +435,36 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-10
   //
 
+  object RichFile2 {
+    def unapplySeq(richFile: sbt.RichFile): Option[Seq[String]] =
+      if (richFile.asFile.getPath.trim.isEmpty) None else Some(richFile.asFile.getPath.split("/").filterNot(_.isEmpty))
+  }
+
+  test("RichFile unapplySeq") {
+    {
+      val richFile = new sbt.RichFile(new java.io.File("/home/cay/readme.txt"))
+      richFile match {
+        case RichFile2("home", "cay", "readme.txt") => assertResult(true)(true)
+        case _ => fail(RichFile2.unapplySeq(richFile).toString)
+      }
+    }
+
+    {
+      val richFile = new sbt.RichFile(new java.io.File("/home"))
+      richFile match {
+        case RichFile2("home") => assertResult(true)(true)
+        case _ => fail(RichFile2.unapplySeq(richFile).toString)
+      }
+    }
+
+    {
+      val richFile = new sbt.RichFile(new java.io.File("/"))
+      richFile match {
+        case RichFile2() => assertResult(true)(true)
+        case _ => fail(RichFile2.unapplySeq(richFile).toString)
+      }
+    }
+
+    assertResult(None)(RichFile2 unapplySeq new sbt.RichFile(new java.io.File("")))
+  }
 }
