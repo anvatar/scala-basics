@@ -406,6 +406,30 @@ class ChapterSuite extends FunSuite {
   // 연습문제 11-9
   //
 
+  object RichFile1 {
+    def unapply(richFile: sbt.RichFile): Option[(String, String, String)] =
+      if (richFile.isDirectory) None else Some(richFile.asFile.getParent, richFile.base, richFile.ext)
+  }
+
+  test("RichFile unapply") {
+    {
+      val RichFile1(path, name, extension) = new sbt.RichFile(new java.io.File("/home/cay/readme.txt"))
+      assert(path == "/home/cay")
+      assert(name == "readme")
+      assert(extension == "txt")
+    }
+
+    {
+      /*
+        RichFile#isDirectory 가 원하는대로 동작하지 않는 것 같다.
+       */
+
+      val RichFile1(path, name, extension) = new sbt.RichFile(new java.io.File("/home/cay/"))
+      assert(path == "/home")
+      assert(name == "cay")
+      assert(extension == "")
+    }
+  }
 
   //
   // 연습문제 11-10
