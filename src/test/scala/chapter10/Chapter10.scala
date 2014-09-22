@@ -1,11 +1,9 @@
 package chapter10
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.FunSuite
 
-/**
- * Created by parkhoyong on 2014. 8. 21..
- */
-class Chapter10 extends FlatSpec with Matchers {
+class Chapter10 extends FunSuite {
+
   //
   // 연습문제 1
   //
@@ -30,6 +28,72 @@ class Chapter10 extends FlatSpec with Matchers {
   // 연습문제 4
   //
 
+  {
+    trait Logger {
+      def log(msg: String): String
+    }
+
+    trait CaesarCipher {
+      def encode(msg: String, shift: Int): String = {
+        (for(x <- msg) yield (x + shift).toChar).mkString
+      }
+
+      def decode(msg: String, shift: Int): String = {
+        (for(x <- msg) yield (x - shift).toChar).mkString
+      }
+    }
+
+    class CaesarLogger extends Logger with CaesarCipher {
+      val shift = 3
+      def log(msg: String): String = {
+       encode(msg, shift)
+      }
+    }
+
+    test("CryptoLogger") {
+      val mockLogger1 = new CaesarLogger
+      assertResult("defGHI")(mockLogger1.log("abcDEF"))
+
+      val mockLogger2 = new {override val shift = -3} with CaesarLogger
+      assertResult("abcDEF")(mockLogger2.log("defGHI"))
+    }
+  }
+
+  /*
+  {
+    trait Logger {
+      def log(msg: String)
+    }
+
+    trait CryptoLogger extends Logger {
+      var caesarDistance = 3
+
+      abstract override def log(msg: String): Unit = {
+        super.log(msg.map(c => (c + caesarDistance).toChar))
+      }
+    }
+
+    trait MockLogger extends Logger {
+      //val messages = new ArrayBuffer[String]()
+
+      def log(msg: String): Unit = {
+        messages += msg
+      }
+    }
+
+    test("CryptoLogger") {
+      val mockLogger = new MockLogger with CryptoLogger
+
+      mockLogger.log("abcDEF")
+      assertResult("defGHI")(mockLogger.messages.last)
+
+      mockLogger.caesarDistance = -3
+
+      mockLogger.log("defGHI")
+      assertResult("abcDEF")(mockLogger.messages.last)
+    }
+  }
+  */
 
   //
   // 연습문제 5
