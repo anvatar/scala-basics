@@ -44,9 +44,9 @@ class Chapter10 extends FunSuite {
     }
 
     class CaesarLogger extends Logger with CaesarCipher {
-      val shift = 3
+      val key = 3
       def log(msg: String): String = {
-       encode(msg, shift)
+       encode(msg, key)
       }
     }
 
@@ -54,7 +54,7 @@ class Chapter10 extends FunSuite {
       val mockLogger1 = new CaesarLogger
       assertResult("defGHI")(mockLogger1.log("abcDEF"))
 
-      val mockLogger2 = new {override val shift = -3} with CaesarLogger
+      val mockLogger2 = new CaesarLogger {override val key = -3}
       assertResult("abcDEF")(mockLogger2.log("defGHI"))
     }
   }
