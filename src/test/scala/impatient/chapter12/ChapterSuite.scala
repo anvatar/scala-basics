@@ -71,7 +71,7 @@ class ChapterSuite extends FunSuite {
   // 연습문제 12-5
   //
 
-  def largest(func: Int => Int, inputs: Seq[Int]): Int = inputs.map(func).reduceLeft(_ max _)
+  def largest(func: Int => Int, inputs: Seq[Int]): Int = inputs.map(func).sorted.last
 
   test("largest func") {
     assertResult(25)(largest(x => 10 * x - x * x, 1 to 10))
