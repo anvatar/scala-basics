@@ -81,24 +81,90 @@ class ChapterSuite extends FunSuite {
   // 연습문제 12-6
   //
 
+  def largestAt(func: Int => Int, inputs: Seq[Int]): Int = inputs.zip(inputs.map(func)).sortBy(_._2).last._1
+
+  test("largestAt func") {
+    assertResult(5)(largestAt(x => 10 * x - x * x, 1 to 10))
+  }
 
   //
   // 연습문제 12-7
   //
 
+  def adjustToPair(func: (Int, Int) => Int)(pair: (Int, Int)): Int = func(pair._1, pair._2)
+
+  test("adjustToPair func") {
+    assertResult(42)(adjustToPair(_ * _)((6, 7)))
+    assertResult(12 to (30, 2))(((1 to 10) zip (11 to 20)).map(adjustToPair(_ + _)))
+  }
 
   //
   // 연습문제 12-8
   //
 
+  test("corresponds") {
+    assert(Array("a", "abc", "ab").corresponds(Array(1, 3, 2))(_.length == _))
+  }
 
   //
   // 연습문제 12-9
   //
 
+  def nonCurryingCorresponds[A, B](input: Seq[A], expected: Seq[B], func: A => B): Boolean =
+    input.map(func).zip(expected).filter(p => p._1 != p._2).isEmpty
+
+  test("nonCurryingCorresponds") {
+    /*
+      Currying 방식의 corresponds보다 타입 추론이 잘 안 되어, func 부분을 아래와 같이 간단하게(_.length == _) 작성할 수 없다.
+
+          assert(nonCurryingCorresponds(Array("a", "abc", "ab"), Array(1, 3, 2), _.length == _))
+     */
+    assert(nonCurryingCorresponds(Array("a", "abc", "ab"), Array(1, 3, 2), (str: String) => str.length))
+  }
 
   //
   // 연습문제 12-10
   //
 
+  /*
+    루프의 경우와 달리 condition은 unless 호출 시점에 한 번만 평가하면 되므로 첫 번째 인자는 call-by-name 인자가 아니어도 된다.
+   */
+  def unless(condition: Boolean)(body: => Unit): Unit = {
+    if (!condition) body
+  }
+
+  test("unless control") {
+    var count = 0
+
+    unless (count != 0) {
+      count += 1
+    }
+    assert(count == 1)
+
+    unless (count != 0) {
+      count += 1
+    }
+    assert(count == 1)
+  }
+
+  def nonCurryingUnless(condition: Boolean, body: => Unit): Unit = {
+    if (!condition) body
+  }
+
+  /*
+      커링 방식을 사용하지 않으면 아래와 같이 일반적이지 않은 어색한 형태로 코드를 작성해야 한다.
+   */
+  test("nonCurryingUnless control") {
+    var count = 0
+
+    nonCurryingUnless(count != 0, {
+      count += 1
+    })
+    assert(count == 1)
+
+    nonCurryingUnless(count != 0, {
+      count += 1
+    })
+    assert(count == 1)
+  }
 }
