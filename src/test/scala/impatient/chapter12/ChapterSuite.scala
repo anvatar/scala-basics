@@ -129,9 +129,7 @@ class ChapterSuite extends FunSuite {
   /*
     루프의 경우와 달리 condition은 unless 호출 시점에 한 번만 평가하면 되므로 첫 번째 인자는 call-by-name 인자가 아니어도 된다.
    */
-  def unless(condition: Boolean)(body: => Unit): Unit = {
-    if (!condition) body
-  }
+  def unless(condition: Boolean)(body: => Unit): Unit = if (!condition) body
 
   test("unless control") {
     var count = 0
@@ -147,9 +145,7 @@ class ChapterSuite extends FunSuite {
     assert(count == 1)
   }
 
-  def nonCurryingUnless(condition: Boolean, body: => Unit): Unit = {
-    if (!condition) body
-  }
+  def nonCurryingUnless(condition: Boolean, body: => Unit): Unit = if (!condition) body
 
   /*
       커링 방식을 사용하지 않으면 아래와 같이 일반적이지 않은 어색한 형태로 코드를 작성해야 한다.
