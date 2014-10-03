@@ -1,8 +1,8 @@
 package impatient.chapter05
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.FunSuite
 
-class ChapterSpec extends FlatSpec with Matchers {
+class ChapterSuite extends FunSuite {
   //
   // 연습문제 5-1
   //
@@ -16,14 +16,14 @@ class ChapterSpec extends FlatSpec with Matchers {
     def current() = value
   }
 
-  "Counter" should "not overflow at (" + Int.MaxValue + " + 1)" in {
+  test("Counter") {
     val counter = new Counter
     for (i <- 0 until Int.MaxValue) {
       counter.increment()
     }
 
     counter.increment()
-    counter.current >= 0 shouldEqual true
+    assert(counter.current >= 0)
   }
 
   //
@@ -39,18 +39,18 @@ class ChapterSpec extends FlatSpec with Matchers {
     def balance = currentAmount
   }
 
-  val bankAccount = new BankAccount
-  //bankAccount.balance = 100   /* 컴파일 에러 */
+  test("BankAccount") {
+    val bankAccount = new BankAccount
+    //bankAccount.balance = 100   /* 컴파일 에러 */
 
-  "BankAccount: 150 - 200 + 100" should "be 50" in {
-    bankAccount.deposit(150).withdraw(200).deposit(100).balance shouldEqual 50
+    assert(bankAccount.deposit(150).withdraw(200).deposit(100).balance == 50)
   }
 
   //
   // 연습문제 5-3
   //
 
-  {
+  test("Time 1") {
     class Time(val hours: Int, val minutes: Int) {
       def before(other: Time) = inMinutes < other.inMinutes
 
@@ -61,20 +61,15 @@ class ChapterSpec extends FlatSpec with Matchers {
     val time2 = new Time(12, 30)
     val time3 = new Time(23, 15)
 
-    "" + time1 should "be before " + time2 in {
-      time1 before time2 shouldEqual true
-    }
-
-    "" + time3 should "not be before " + time2 in {
-      time3 before time2 shouldEqual false
-    }
+    assert(time1 before time2)
+    assert(!(time3 before time2))
   }
 
   //
   // 연습문제 5-4
   //
 
-  {
+  test("Time 2") {
     class Time private(val inMinutes: Int) {
       def this(hours: Int, minutes: Int) {
         this(hours * 60 + minutes)
@@ -97,13 +92,8 @@ class ChapterSpec extends FlatSpec with Matchers {
     val time3 = new Time(23, 15)
     //val time4 = new Time(2 * 60 + 40) /* 컴파일 에러 */
 
-    "" + time1 should "be before " + time2 in {
-      time1 before time2 shouldEqual true
-    }
-
-    "" + time3 should "not be before " + time2 in {
-      time3 before time2 shouldEqual false
-    }
+    assert(time1 before time2)
+    assert(!(time3 before time2))
   }
 
   //
@@ -133,23 +123,22 @@ class ChapterSpec extends FlatSpec with Matchers {
       }
    */
 
-  {
+  test("Student") {
     val name = "HongJoon Ahn"
     val id = 3505
     val id2 = 3263
 
     val anvatar = new Student(name, id)
-    "getXxx/setXxx call" should "be inconvenient" in {
-      anvatar.getName shouldEqual name
-      anvatar.getId shouldEqual id
-      anvatar.setId(id2)
-      anvatar.getId shouldEqual id2
 
-      anvatar.name shouldEqual name
-      anvatar.id shouldEqual id2
-      anvatar.id = id
-      anvatar.id shouldEqual id
-    }
+    assert(anvatar.getName == name)
+    assert(anvatar.getId == id)
+    anvatar.setId(id2)
+    assert(anvatar.getId == id2)
+
+    assert(anvatar.name == name)
+    assert(anvatar.id == id2)
+    anvatar.id = id
+    assert(anvatar.id == id)
   }
 
   /*
@@ -165,42 +154,38 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 5-6
   //
 
-  {
+  test("Person 1") {
     class Person(private var privateAge: Int = 0) {
       if (privateAge < 0) privateAge = 0
 
       def age = privateAge
+
       def age_=(newValue: Int): Unit = {
         if (newValue > privateAge) privateAge = newValue
       }
     }
 
     val fred = new Person(-2)
-    "Fred's age" should "be 0" in {
-      fred.age shouldEqual 0
-    }
+    assert(fred.age == 0)
 
     val wilma = new Person
-    "Wilma's age" should "be 0" in {
-      wilma.age shouldEqual 0
-    }
+    assert(wilma.age == 0)
   }
 
   //
   // 연습문제 5-7
   //
 
-  {
+  test("Person 2") {
     class Person(name: String) {
       val firstName = name.split("\\s")(0)
       val lastName = name.split("\\s")(1)
     }
 
     val fred = new Person("Fred Smith")
-    "Fred's first name and last name" should "be 'Fred' and 'Smith'" in {
-      fred.firstName shouldEqual "Fred"
-      fred.lastName shouldEqual "Smith"
-    }
+
+    assert(fred.firstName == "Fred")
+    assert(fred.lastName == "Smith")
 
     /*
         기본 생성자의 인자는 일반 인자면 된다. firstName, lastName 필드 값을 계산한 뒤에는 별도로 이용할 필요가 없기 때문이다.
@@ -211,26 +196,24 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 5-8
   //
 
-  {
-    "Cars" should "instantiate fine" in {
-      val i30 = new Car("Hyundai", "i30", 2008, "6048")
-      i30.manufacturer shouldEqual "Hyundai"
-      i30.modelName shouldEqual "i30"
-      i30.modelYear shouldEqual 2008
-      i30.registeredNum shouldEqual "6048"
+  test("Cars") {
+    val i30 = new Car("Hyundai", "i30", 2008, "6048")
+    assert(i30.manufacturer == "Hyundai")
+    assert(i30.modelName == "i30")
+    assert(i30.modelYear == 2008)
+    assert(i30.registeredNum == "6048")
 
-      val forte = new Car("Kia", "Forte")
-      forte.modelYear shouldEqual -1
-      forte.registeredNum shouldEqual ""
+    val forte = new Car("Kia", "Forte")
+    assert(forte.modelYear == -1)
+    assert(forte.registeredNum == "")
 
-      val sonata = new Car("Hyundai", "Sonata", 2009)
-      sonata.modelYear shouldEqual 2009
-      sonata.registeredNum shouldEqual ""
+    val sonata = new Car("Hyundai", "Sonata", 2009)
+    assert(sonata.modelYear == 2009)
+    assert(sonata.registeredNum == "")
 
-      val spark = new Car("Chevrolet", "Spark", "2236")
-      spark.modelYear shouldEqual -1
-      spark.registeredNum shouldEqual "2236"
-    }
+    val spark = new Car("Chevrolet", "Spark", "2236")
+    assert(spark.modelYear == -1)
+    assert(spark.registeredNum == "2236")
   }
 
   //
@@ -265,14 +248,12 @@ class ChapterSpec extends FlatSpec with Matchers {
       하지만 가장 좋은 선택은 Employee3이다.
    */
 
-  val john = new Employee2
-  "John's name" should "be John Q. Public" in {
-    john.name shouldEqual "John Q. Public"
-  }
+  test("Employee2") {
+    val john = new Employee2
+    assert(john.name == "John Q. Public")
 
-  val anvatar = new Employee2("HongJoon Ahn")
-  anvatar.salary = 0.1
-  "anvatar's name" should "HongJoon Ahn" in {
-    anvatar.name shouldEqual "HongJoon Ahn"
+    val anvatar = new Employee2("HongJoon Ahn")
+    anvatar.salary = 0.1
+    assert(anvatar.name == "HongJoon Ahn")
   }
 }
