@@ -1,10 +1,11 @@
 package impatient.chapter04
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.FunSuite
 import scala.collection.JavaConversions.mapAsScalaMap
 import scala.collection.JavaConversions.propertiesAsScalaMap
+import scala.collection.mutable.ArrayBuffer
 
-class ChapterSpec extends FlatSpec with Matchers {
+class ChapterSuite extends FunSuite {
   //
   // 연습문제 4-1
   //
@@ -13,13 +14,16 @@ class ChapterSpec extends FlatSpec with Matchers {
     (for ((k, v) <- prices) yield (k, v * 0.9)).toMap
 
     // 대안 1
-    /*prices.mapValues(_ * 0.9)*/
+    /*prices.map({ case (k, v) => (k, v * 0.9) })*/
 
     // 대안 2
-    /*prices.map({ case (k, v) => (k, v * 0.9) })*/
+    /*prices.map(kv => (kv._1, kv._2 * 0.9))*/
+
+    // 대안 3
+    /*prices.mapValues(_ * 0.9)*/
   }
 
-  {
+  test("discountPrices") {
     val input = Map(
       "MacBook Air" -> 1490000,
       "MacBook Pro" -> 2990000,
@@ -35,9 +39,7 @@ class ChapterSpec extends FlatSpec with Matchers {
       "Mac Mini" -> 990000 * 0.9
     )
 
-    "discountPrices: " + input should "should equal " + expected in {
-      discountPrices(input) shouldEqual expected
-    }
+    assert(discountPrices(input) == expected)
   }
 
   //
@@ -59,8 +61,10 @@ class ChapterSpec extends FlatSpec with Matchers {
   }
 
   val wordCountMutableMap = countWordsWithMutableMap(testInputFilePath)
-  
-  for (kv <- wordCountMutableMap) println(kv)
+
+  test("countWordsWithMutableMap") {
+    for (kv <- wordCountMutableMap) println(kv)
+  }
 
   //
   // 연습문제 4-3
@@ -78,12 +82,10 @@ class ChapterSpec extends FlatSpec with Matchers {
     resultMap
   }
 
-  {
+  test("countWordsWithImmutableMap") {
     val immutableMap = countWordsWithImmutableMap(testInputFilePath)
 
-    "immutableMap" should "contain same data with wordCountMutableMap" in {
-      compareWordCounts(wordCountMutableMap, immutableMap) shouldEqual true
-    }
+    assert(compareWordCounts(wordCountMutableMap, immutableMap))
   }
 
   //
@@ -102,17 +104,12 @@ class ChapterSpec extends FlatSpec with Matchers {
     resultMap
   }
 
-  {
+  test("countWordsWithSortedMap") {
     val sortedMap = countWordsWithSortedMap(testInputFilePath)
+    assert(compareWordCounts(wordCountMutableMap, sortedMap))
 
-    "sortedMap" should "contain same data with wordCountMutableMap" in {
-      compareWordCounts(wordCountMutableMap, sortedMap) shouldEqual true
-    }
-
-    "sortedMap's keys" should "be in sorted order" in {
-      val keys: List[String] = (for ((k, _) <- sortedMap) yield k).toList
-      keys shouldEqual keys.sorted
-    }
+    val keys: List[String] = (for ((k, _) <- sortedMap) yield k).toList
+    assert(keys == keys.sorted)
   }
 
   //
@@ -131,17 +128,12 @@ class ChapterSpec extends FlatSpec with Matchers {
     resultMap
   }
 
-  {
+  test("countWordsWithJavaTreeMap") {
     val javaTreeMap = countWordsWithJavaTreeMap(testInputFilePath)
+    assert(compareWordCounts(wordCountMutableMap, javaTreeMap))
 
-    "javaTreeMap" should "contain same data with wordCountMutableMap" in {
-      compareWordCounts(wordCountMutableMap, javaTreeMap) shouldEqual true
-    }
-
-    "javaTreeMap's keys" should "be in sorted order" in {
-      val keys: List[String] = (for ((k, _) <- javaTreeMap) yield k).toList
-      keys shouldEqual keys.sorted
-    }
+    val keys: List[String] = (for ((k, _) <- javaTreeMap) yield k).toList
+    assert(keys == keys.sorted)
   }
 
   //
@@ -158,15 +150,15 @@ class ChapterSpec extends FlatSpec with Matchers {
     "Sunday" -> java.util.Calendar.SUNDAY
   )
 
-  "daysMap" should "iterate in inserted order" in {
-    (for ((_, v) <- daysMap) yield v) shouldEqual Array(2, 3, 4, 5, 6, 7, 1)
+  test("daysMap") {
+    assert((for ((_, v) <- daysMap) yield v).toBuffer == ArrayBuffer(2, 3, 4, 5, 6, 7, 1))
   }
 
   //
   // 연습문제 4-7
   //
 
-  {
+  test("system properties table") {
     val systemProperties: scala.collection.Map[String, String] = java.lang.System.getProperties
     val maxKeyLength = (for (k <- systemProperties.keys) yield k.length).max
 
@@ -181,13 +173,9 @@ class ChapterSpec extends FlatSpec with Matchers {
     (values.min, values.max)
   }
 
-  {
+  test("minmax") {
     val values = Array(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
-    val expected = (-5, 4)
-
-    "minmax(" + values.mkString("[", ", ", "]") + ")" should "be " + expected in {
-      minmax(values) shouldEqual expected
-    }
+    assert(minmax(values) == ((-5, 4)))
   }
 
   //
@@ -200,12 +188,12 @@ class ChapterSpec extends FlatSpec with Matchers {
     (lt.length, eq.length, gt.length)
   }
 
-  val values = Array(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
-  val pivot = 1
-  val expected = (6, 1, 3)
+  test("lteqgt") {
+    val values = Array(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
+    val pivot = 1
+    val expected = (6, 1, 3)
 
-  "lteqgt(" + values.mkString("[", ", ", "]") + ", " + pivot + ")" should "be " + expected in {
-    lteqgt(values, 1) shouldEqual expected
+    assert(lteqgt(values, pivot) == expected)
   }
 
   //
