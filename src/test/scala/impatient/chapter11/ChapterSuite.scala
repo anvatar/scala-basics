@@ -343,14 +343,16 @@ class ChapterSuite extends FunSuite {
   class Matrix(val rows: Int, val cols: Int, private val data: Array[Int]) {
     def apply(row: Int, col: Int): Int = data(row * cols + col)
 
-    def +(other: Matrix): Matrix = Matrix(rows, cols, (for (r <- 0 until this.rows; c <- 0 until this.cols) yield this(r, c) + other(r, c)).toArray)
+    def +(other: Matrix): Matrix =
+      Matrix(rows, cols, (for (r <- 0 until this.rows; c <- 0 until this.cols) yield this(r, c) + other(r, c)).toArray)
 
     def *(other: Matrix): Matrix =
-      Matrix(this.rows, other.cols, (for (r <- 0 until this.rows; c <- 0 until other.cols) yield (for (i <- 0 until this.cols) yield this(r, i) * other(i, c)).sum).toArray)
+      Matrix(this.rows, other.cols,
+        (for (r <- 0 until this.rows; c <- 0 until other.cols) yield (0 until this.cols).map(i => this(r, i) * other(i, c)).sum).toArray)
 
     def *(scalar: Int): Matrix = Matrix(rows, cols, data.map(_ * scalar))
 
-    override def toString: String = data.grouped(cols).map(row => row.mkString("( ", " ", " )")).mkString("\n")
+    override def toString: String = data.grouped(cols).map(_.mkString("( ", " ", " )")).mkString("\n")
 
     /*
      * IntelliJ IDEA로 생성
