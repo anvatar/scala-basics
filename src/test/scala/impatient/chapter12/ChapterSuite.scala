@@ -71,7 +71,7 @@ class ChapterSuite extends FunSuite {
   // 연습문제 12-5
   //
 
-  def largest(func: Int => Int, inputs: Seq[Int]): Int = inputs.map(func).sorted.last
+  def largest(fun: Int => Int, inputs: Seq[Int]): Int = inputs.map(fun).max
 
   test("largest func") {
     assertResult(25)(largest(x => 10 * x - x * x, 1 to 10))
@@ -81,7 +81,11 @@ class ChapterSuite extends FunSuite {
   // 연습문제 12-6
   //
 
-  def largestAt(func: Int => Int, inputs: Seq[Int]): Int = inputs.zip(inputs.map(func)).sortBy(_._2).last._1
+  def largestAt(fun: Int => Int, inputs: Seq[Int]): Int = inputs.zip(inputs.map(fun)).sortWith((l, r) => l._2 < r._2).last._1
+  // def largestAt(fun: Int => Int, inputs: Seq[Int]): Int = inputs.zip(inputs.map(fun)).sortBy(_._2).last._1
+  // def largestAt(fun: Int => Int, inputs: Seq[Int]): Int = inputs.zip(inputs.map(fun)).maxBy(_._2)._1
+  // def largestAt(fun: Int => Int, inputs: Seq[Int]): Int = inputs.map(fun).zip(inputs).max._2
+  // def largestAt(fun: Int => Int, inputs: Seq[Int]): Int = inputs.maxBy(fun)
 
   test("largestAt func") {
     assertResult(5)(largestAt(x => 10 * x - x * x, 1 to 10))
