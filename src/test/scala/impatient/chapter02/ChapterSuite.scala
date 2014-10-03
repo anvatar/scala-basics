@@ -1,26 +1,22 @@
 package impatient.chapter02
 
-import org.scalatest.{Matchers, FlatSpec}
+import org.scalatest.FunSuite
 
-class ChapterSpec extends FlatSpec with Matchers {
+class ChapterSuite extends FunSuite {
   //
   // 연습문제 2-1
   //
 
   def signum(num: Int) = if (num > 0) 1 else if (num < 0) -1 else 0
 
-  "signum(양수)" should "be 1" in {
-    signum(1) shouldEqual 1
-    signum(2) shouldEqual 1
-  }
+  test("signum") {
+    assert(signum(1) == 1)
+    assert(signum(2) == 1)
 
-  "signum(음수)" should "be -1" in {
-    signum(-1) shouldEqual -1
-    signum(-2) shouldEqual -1
-  }
+    assert(signum(-1) == -1)
+    assert(signum(-2) == -1)
 
-  "signum(0)" should "be 0" in {
-    signum(0) shouldEqual 0
+    assert(signum(0) == 0)
   }
 
   //
@@ -98,28 +94,24 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 2-6
   //
 
-  {
-    def product(s: String) = {
-      var result: Long = 1
-      for (c <- "Hello") result *= c
-      result
-    }
+  def productWithFor(s: String) = {
+    var result: Long = 1
+    for (c <- "Hello") result *= c
+    result
+  }
 
-    "6: product(\"Hello\")" should "be " + 9415087488L in {
-      product("Hello") shouldEqual 9415087488L
-    }
+  test("product with for") {
+    assert(productWithFor("Hello") == 9415087488L)
   }
 
   //
   // 연습문제 2-7
   //
 
-  {
-    def product(s: String) = s.map(_.toLong).product
+  def productWithoutFor(s: String) = s.map(_.toLong).product
 
-    "7: product(\"Hello\")" should "be " + 9415087488L in {
-      product("Hello") shouldEqual 9415087488L
-    }
+  test("product without for") {
+    assert(productWithoutFor("Hello") == 9415087488L)
   }
 
   //
@@ -134,12 +126,10 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 2-9
   //
 
-  {
-    def product(s: String): Long = if (s.isEmpty) 1 else s.head * product(s.tail)
+  def productWithRecursion(s: String): Long = if (s.isEmpty) 1 else s.head * productWithRecursion(s.tail)
 
-    "9: product(\"Hello\")" should "be " + 9415087488L in {
-      product("Hello") shouldEqual 9415087488L
-    }
+  test("product with recursion") {
+    assert(productWithRecursion("Hello") == 9415087488L)
   }
 
   //
@@ -155,9 +145,9 @@ class ChapterSpec extends FlatSpec with Matchers {
     else 1 / pow(x, -n)
   }
 
-  for (x <- 0.1.to(3.0, 0.1); n <- -3 to 3) {
-    "" + x + "^" + n should "be " + math.pow(x, n) in {
-      math.abs(pow(x, n) - math.pow(x, n)) < 0.0001 shouldEqual true
+  test("pow") {
+    for (x <- 0.1.to(3.0, 0.1); n <- -3 to 3) {
+      assert(math.abs(pow(x, n) - math.pow(x, n)) < 0.0001)
     }
   }
 }
