@@ -1,8 +1,8 @@
 package impatient.chapter01
 
-import org.scalatest._
+import org.scalatest.FunSuite
 
-class ChapterSpec extends FlatSpec with Matchers {
+class ChapterSuite extends FunSuite {
   //
   // 연습문제 1-1
   //
@@ -76,41 +76,38 @@ class ChapterSpec extends FlatSpec with Matchers {
   // 연습문제 1-6
   //
 
-  "2 ^ 1024" should "be " + BigInt(2).pow(1024) in {
-    true shouldEqual true
+  test("2 ^ 1024") {
+    println(BigInt(2).pow(1024))
   }
 
   //
   // 연습문제 1-7
   //
 
-  "probablePrime(100, Random)" should "be compiled" in {
+  test("probablePrime(100, Random)") {
     import scala.math.BigInt._
     import scala.util.Random
 
-    probablePrime(100, Random)
+    println(probablePrime(100, Random))
   }
 
   //
   // 연습문제 1-8
   //
 
-  "Temporary file name" should "look like " +
-    BigInt.probablePrime(100, util.Random).toString(36) in {
-    true shouldEqual true
+  test("temporary file name") {
+    println(BigInt.probablePrime(100, util.Random).toString(36))
   }
 
   //
   // 연습문제 1-9
   //
 
-  "First character of \"scala\"" should "be 's'" in {
-    "scala".head shouldEqual 's'
-    "scala"(0) shouldEqual 's'
-  }
+  test("first and last characters") {
+    assert("scala".head == 's')
+    assert("scala"(0) == 's')
 
-  "Last character of \"scala\"" should "be 'a'" in {
-    "scala".last shouldEqual 'a'
+    assert("scala".last == 'a')
   }
 
   //
@@ -126,25 +123,25 @@ class ChapterSpec extends FlatSpec with Matchers {
       take, drop, takeRight, dropRight를 사용하는 것이 거의 항상 의미가 더 명확하며, 코드도 간결하다.
    */
 
-  "take, drop, takeRight, dropRight" should "be better than substring" in {
+  test("(take, drop, takeRight, dropRight) vs substring") {
     val str = "Scala for the Impatient"
 
-    str take 5 shouldEqual "Scala"
-    str.substring(0, 5) shouldEqual "Scala"
+    assert((str take 5) == "Scala")
+    assert(str.substring(0, 5) == "Scala")
 
-    str drop 5 shouldEqual " for the Impatient"
-    str.substring(5) shouldEqual " for the Impatient"
+    assert((str drop 5) == " for the Impatient")
+    assert(str.substring(5) == " for the Impatient")
 
-    str takeRight 5 shouldEqual "tient"
-    str.substring(str.length - 5, str.length) shouldEqual "tient"
+    assert((str takeRight 5) == "tient")
+    assert(str.substring(str.length - 5, str.length) == "tient")
 
-    str dropRight 5 shouldEqual "Scala for the Impa"
-    str.substring(0, str.length - 5) shouldEqual "Scala for the Impa"
+    assert((str dropRight 5) == "Scala for the Impa")
+    assert(str.substring(0, str.length - 5) == "Scala for the Impa")
 
-    str drop 6 dropRight 4 shouldEqual "for the Impat"
-    str.substring(6, str.length - 4) shouldEqual "for the Impat"
+    assert((str drop 6 dropRight 4) == "for the Impat")
+    assert(str.substring(6, str.length - 4) == "for the Impat")
 
-    str drop 4 take 6 shouldEqual "a for "
-    str.substring(4, 10) shouldEqual "a for "
+    assert((str drop 4 take 6) == "a for ")
+    assert(str.substring(4, 10) == "a for ")
   }
 }
