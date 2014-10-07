@@ -45,6 +45,30 @@ class ChapterSuite extends FunSuite {
   // 연습문제 13-3
   //
 
+  def removeZeros(lst: mutable.LinkedList[Int]): Unit = {
+    val filtered = lst.filterNot(_ == 0)
+    lst.next = lst
+    if (filtered != mutable.LinkedList.empty) {
+      lst.elem = filtered.elem
+      lst.next = filtered.next
+    }
+  }
+
+  test("removeZeros") {
+    def assertRemoveZeros(input: mutable.LinkedList[Int], expected: List[Int]): Unit = {
+      removeZeros(input)
+      assert(input.toList == expected)
+    }
+
+    assertRemoveZeros(mutable.LinkedList(1, 2, 3), List(1, 2, 3))
+    assertRemoveZeros(mutable.LinkedList(1, 2, 0), List(1, 2))
+    assertRemoveZeros(mutable.LinkedList(1, 0, 2), List(1, 2))
+    assertRemoveZeros(mutable.LinkedList(0, 1, 2), List(1, 2))
+    assertRemoveZeros(mutable.LinkedList(0, 1, 0, 2, 0), List(1, 2))
+    assertRemoveZeros(mutable.LinkedList(0, 0, 1, 0, 0, 2, 0, 0), List(1, 2))
+    assertRemoveZeros(mutable.LinkedList(0), Nil)
+    assertRemoveZeros(mutable.LinkedList[Int](), Nil)
+  }
 
   //
   // 연습문제 13-4
