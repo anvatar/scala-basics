@@ -3,6 +3,7 @@ package impatient.chapter13
 import org.scalatest.FunSuite
 
 import scala.collection._
+import scala.collection.mutable.ArrayBuffer
 
 class ChapterSuite extends FunSuite {
 
@@ -74,11 +75,38 @@ class ChapterSuite extends FunSuite {
   // 연습문제 13-4
   //
 
+  def flatMapExample(strings: Array[String], stringToInt: Map[String, Int]): Array[Int] = strings.flatMap(stringToInt.get)
+
+  test("flatMapExample") {
+    assert(flatMapExample(Array("Tom", "Fred", "Harry"), Map("Tom" -> 3, "Dick" -> 4, "Harry" -> 5)).toBuffer == ArrayBuffer(3, 5))
+  }
 
   //
   // 연습문제 13-5
   //
 
+  object mkString {
+    private val EMPTY = ""
+
+    def apply(seq: Seq[_]): String = mkString(seq, EMPTY)
+
+    def apply(seq: Seq[_], sep: String): String = mkString(seq, EMPTY, sep, EMPTY)
+
+    def apply(seq: Seq[_], start: String, sep: String, end: String): String =
+      start + (if (seq.isEmpty) EMPTY else seq.reduceLeft(_ + sep + _.toString)) + end
+  }
+
+  test("mkString") {
+    def assertMkString(seq: Seq[_]): Unit = {
+      assertResult(seq.mkString)(mkString(seq))
+      assertResult(seq.mkString(", "))(mkString(seq, ", "))
+      assertResult(seq.mkString("( ", ", ", " )"))(mkString(seq, "( ", ", ", " )"))
+    }
+
+    assertMkString(Array(1, 2, 3))
+    assertMkString("abc")
+    assertMkString(Nil)
+  }
 
   //
   // 연습문제 13-6
