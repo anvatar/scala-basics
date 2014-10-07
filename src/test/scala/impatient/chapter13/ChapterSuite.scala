@@ -170,8 +170,8 @@ class ChapterSuite extends FunSuite {
   // 연습문제 13-9
   //
 
-  val inputContents = "1234567890" * 100000
-  val expectedFrequencies = (0 until 10).map(i => (i.toString.charAt(0), 100000)).toMap
+  val inputContents = "1234567890abcdefghijklmnopqrstuvwxyz" * 200000
+  val expectedFrequencies = "1234567890abcdefghijklmnopqrstuvwxyz".map(c => (c, 200000)).toMap
 
   test("synchronized map example") {
     import java.util.concurrent._
@@ -180,8 +180,8 @@ class ChapterSuite extends FunSuite {
     val frequencies = new mutable.HashMap[Char, Int] with mutable.SynchronizedMap[Char, Int]
     // val frequencies: mutable.Map[Char, Int] = new ConcurrentHashMap[Char, Int]
 
-    val executorService = Executors.newFixedThreadPool(100000 / 10007 + 1)
-    val futures: Iterable[Future[Unit]] = executorService.invokeAll(inputContents.grouped(10007).map(str => {
+    val executorService = Executors.newFixedThreadPool(10)
+    val futures: Iterable[Future[Unit]] = executorService.invokeAll(inputContents.grouped(19997).map(str => {
       new Callable[Unit] {
         override def call(): Unit = {
           str.foreach(c => { frequencies(c) = frequencies.getOrElse(c, 0) + 1})
@@ -207,11 +207,16 @@ class ChapterSuite extends FunSuite {
 
   test("parallel collection example") {
     val frequencies = new mutable.HashMap[Char, Int]
-    for (c <- inputContents.par) frequencies(c) = frequencies.getOrElse(c, 0) + 1
+    /*
+      지나치게 작은 단위로 쪼개어 병렬처리를 하려고 하기 때문에 공유 변수에 대한 경쟁이 심하게 일어나,
+      데이터가 많아지면 수행시간이 급격히 증가한다.
+     */
+    // for (c <- inputContents.par) frequencies(c) = frequencies.getOrElse(c, 0) + 1
+    for (c <- inputContents.take(100).par) frequencies(c) = frequencies.getOrElse(c, 0) + 1
 
     /*
       본문에 나와 있는대로, 병렬 연산이 공유 변수를 변경하면 결과는 예측 불가능하다.
-      다음 테스트는 실패한다.
+      아래 테스트는 실패한다.
      */
     // assert(frequencies == expectedFrequencies)
   }
