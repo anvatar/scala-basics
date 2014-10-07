@@ -112,16 +112,59 @@ class ChapterSuite extends FunSuite {
   // 연습문제 13-6
   //
 
+  {
+    val lst = List(1, 2, 3, 4, 5)
+
+    /*
+      두 가지 예 모두 원래 리스트와 동일한 리스트를 만들어낸다.
+     */
+    test("list fold example") {
+      assert((lst :\ List[Int]())(_ :: _) == lst)
+      // assert(lst.foldRight(List[Int]())(_ :: _) == lst)
+
+      assert((List[Int]() /: lst)(_ :+ _) == lst)
+      // assert(lst.foldLeft(List[Int]())(_ :+ _) == lst)
+    }
+
+    /*
+      위 예와 foldLeft/foldRight 와 연산 함수를 반대로 섞어서 사용하면 리스트를 뒤집을 수 있다.
+     */
+    test("reverse list") {
+      assert((lst :\ List[Int]())((e, lst) => lst :+ e) == lst.reverse)
+
+      assert((List[Int]() /: lst)((lst, e) => e :: lst) == lst.reverse)
+    }
+  }
 
   //
   // 연습문제 13-7
   //
 
+  {
+    val prices = List(5.0, 20.0, 9.95)
+    val quantities = List(10, 2, 1)
+    val expected = List(50.0, 40.0, 9.95)
+
+    test("zip example") {
+      assert((prices zip quantities).map { p => p._1 * p._2} == expected)
+    }
+
+    test("zip, map, Function2") {
+      assert((prices zip quantities).map(((_: Double) * (_: Int)).tupled) == expected)
+    }
+  }
 
   //
   // 연습문제 13-8
   //
 
+  def to2DArray(ints: Array[Int], cols: Int) = ints.grouped(cols).toArray
+
+  test("to2DArray") {
+    def toBuffer(array: Array[Array[Int]]) = array.map(_.toBuffer).toBuffer
+
+    assert(toBuffer(to2DArray(Array(1, 2, 3, 4, 5, 6), 3)) == toBuffer(Array(Array(1, 2, 3), Array(4, 5, 6))))
+  }
 
   //
   // 연습문제 13-9
