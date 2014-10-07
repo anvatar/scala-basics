@@ -170,9 +170,56 @@ class ChapterSuite extends FunSuite {
   // 연습문제 13-9
   //
 
+  val inputContents = "1234567890" * 100000
+  val expectedFrequencies = (0 until 10).map(i => (i.toString.charAt(0), 100000)).toMap
+
+  test("synchronized map example") {
+    import java.util.concurrent._
+    import JavaConversions._
+
+    val frequencies = new mutable.HashMap[Char, Int] with mutable.SynchronizedMap[Char, Int]
+    // val frequencies: mutable.Map[Char, Int] = new ConcurrentHashMap[Char, Int]
+
+    val executorService = Executors.newFixedThreadPool(100000 / 10007 + 1)
+    val futures: Iterable[Future[Unit]] = executorService.invokeAll(inputContents.grouped(10007).map(str => {
+      new Callable[Unit] {
+        override def call(): Unit = {
+          str.foreach(c => { frequencies(c) = frequencies.getOrElse(c, 0) + 1})
+        }
+      }
+    }).toList)
+
+    futures.foreach(_.isDone)
+
+    /*
+      frequencies 에 어떤 구현체를 이용하든 아래 테스트에 실패한다.
+
+          frequencies(c) = frequencies.getOrElse(c, 0) + 1
+
+      은 조회와 갱신이 하나의 atomic한 단계로 수행되지 않기 때문이다.
+     */
+    // assert(frequencies == expectedFrequencies)
+  }
 
   //
   // 연습문제 13-10
   //
 
+  test("parallel collection example") {
+    val frequencies = new mutable.HashMap[Char, Int]
+    for (c <- inputContents.par) frequencies(c) = frequencies.getOrElse(c, 0) + 1
+
+    /*
+      본문에 나와 있는대로, 병렬 연산이 공유 변수를 변경하면 결과는 예측 불가능하다.
+      다음 테스트는 실패한다.
+     */
+    // assert(frequencies == expectedFrequencies)
+  }
+
+  test("parallel collection") {
+    val frequencies = inputContents.par.aggregate(Map[Char, Int]())(
+      (freq, c) => freq + (c -> (freq.getOrElse(c, 0) + 1)),
+      (freq1, freq2) => (freq1.keySet ++ freq2.keySet).map(c => (c, freq1.getOrElse(c, 0) + freq2.getOrElse(c, 0))).toMap)
+    assert(frequencies == expectedFrequencies)
+  }
 }
