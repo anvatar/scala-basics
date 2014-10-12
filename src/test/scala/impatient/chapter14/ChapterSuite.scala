@@ -168,9 +168,33 @@ class ChapterSuite extends FunSuite {
   // 연습문제 14-9
   //
 
+  def sumOfSomes(maybeInts: List[Option[Int]]): Int = {
+    maybeInts.map(_.getOrElse(0)).sum
+
+    /* 대안 1 */
+    // maybeInts.flatMap(x => x).sum
+  }
+
+  test("sumOfSomes") {
+    assert(sumOfSomes(List(Some(1), None, Some(2), None, Some(3))) == 6)
+  }
 
   //
   // 연습문제 14-10
   //
 
+  def compose(f: Double => Option[Double], g: Double => Option[Double]) = (x: Double) => g(x) match {
+    case None => None
+    case Some(y) => f(y)
+  }
+
+  test("compose") {
+    def f(x: Double) = if (x >= 0) Some(math.sqrt(x)) else None
+    def g(x: Double) = if (x != 1) Some(1 / (x - 1)) else None
+    val h = compose(f, g)
+
+    assert(h(2) == Some(1))
+    assert(h(1) == None)
+    assert(h(0) == None)
+  }
 }
