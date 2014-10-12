@@ -149,7 +149,7 @@ class ChapterSuite extends FunSuite {
     def eval(tree: Tree): Int = tree match {
       case Leaf(v) => v
       case Node(Op.-, head) => -1 * eval(head)
-      case Node(op, head, tail@_*) => (head +: tail).map(eval).reduceLeft(op match {
+      case Node(op, h1, h2, tail@_*) => (h1 +: h2 +: tail).map(eval).reduceLeft(op match {
         case Op.+ => (_: Int) + (_: Int)
         case Op.- => (_: Int) - (_: Int)
         case Op.* => (_: Int) * (_: Int)
@@ -161,6 +161,9 @@ class ChapterSuite extends FunSuite {
       assert(eval(input) == ((3 * 8) + 2 + (-5)))
 
       assert(eval(Node(Op.-, Leaf(3), Leaf(2), Leaf(1))) == 0) // 3 - 2 - 1
+
+      intercept[MatchError](eval(Node(Op.*, Leaf(3))))
+      intercept[MatchError](eval(Node(Op.+, Leaf(24))))
     }
   }
 
