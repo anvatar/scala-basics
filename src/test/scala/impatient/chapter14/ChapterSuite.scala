@@ -79,21 +79,90 @@ class ChapterSuite extends FunSuite {
   // 연습문제 14-5
   //
 
+  {
+    def leafSum(list: List[Any]): Int = list match {
+      case Nil => 0
+      case (head: Int) :: tail => head + leafSum(tail)
+      case (head: List[Any]) :: tail => leafSum(head) + leafSum(tail)
+      case _ => throw new MatchError(list) // 컴파일러 경고를 없애기 위해 필요
+    }
+
+    test("leafSum (exercise 14-5)") {
+      val input = List(List(3, 8), 2, List(5)) // ((3 8) 2 (5))
+      assert(leafSum(input) == 18)
+    }
+  }
 
   //
   // 연습문제 14-6
   //
 
+  {
+    sealed abstract class BinaryTree
+    case class Leaf(value: Int) extends BinaryTree
+    case class Node(left: BinaryTree, right: BinaryTree) extends BinaryTree
+
+    def leafSum(bt: BinaryTree): Int = bt match {
+      case Leaf(v) => v
+      case Node(l, r) => leafSum(l) + leafSum(r)
+    }
+
+    test("leafSum (exercise 14-6)") {
+      val input = Node(Node(Node(Leaf(3), Leaf(8)), Leaf(2)), Leaf(5)) // (((3 8) 2) 5)
+      assert(leafSum(input) == 18)
+    }
+  }
 
   //
   // 연습문제 14-7
   //
 
+  {
+    sealed abstract class Tree
+    case class Leaf(value: Int) extends Tree
+    case class Node(trees: Tree*) extends Tree
+
+    def leafSum(tree: Tree): Int = tree match {
+      case Leaf(v) => v
+      case Node(trees@_*) => trees.map(leafSum).sum
+    }
+
+    test("leafSum (exercise 14-7)") {
+      val input = Node(Node(Leaf(3), Leaf(8)), Leaf(2), Node(Leaf(5))) // ((3 8) 2 (5))
+      assert(leafSum(input) == 18)
+    }
+  }
 
   //
   // 연습문제 14-8
   //
 
+  {
+    object Op extends Enumeration {
+      val +, -, * = Value
+    }
+
+    sealed abstract class Tree
+    case class Leaf(value: Int) extends Tree
+    case class Node(op: Op.Value, trees: Tree*) extends Tree
+
+    def eval(tree: Tree): Int = tree match {
+      case Leaf(v) => v
+      case Node(Op.-, head) => -1 * eval(head)
+      case Node(op, head, tail@_*) => (head +: tail).map(eval).reduceLeft(op match {
+        case Op.+ => (_: Int) + (_: Int)
+        case Op.- => (_: Int) - (_: Int)
+        case Op.* => (_: Int) * (_: Int)
+      })
+    }
+
+    test("eval") {
+      val input = Node(Op.+, Node(Op.*, Leaf(3), Leaf(8)), Leaf(2), Node(Op.-, Leaf(5))) // (3 * 8) + 2 + (-5)
+      assert(eval(input) == ((3 * 8) + 2 + (-5)))
+
+      assert(eval(Node(Op.-, Leaf(3), Leaf(2), Leaf(1))) == 0) // 3 - 2 - 1
+    }
+  }
 
   //
   // 연습문제 14-9
