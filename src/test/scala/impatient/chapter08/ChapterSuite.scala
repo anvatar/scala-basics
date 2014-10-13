@@ -3,7 +3,6 @@ package impatient.chapter08
 import org.scalatest.FunSuite
 
 import scala.collection.immutable.Stack
-import scala.collection.mutable.ArrayBuffer
 
 class ChapterSuite extends FunSuite {
 
@@ -263,9 +262,9 @@ class ChapterSuite extends FunSuite {
     def minXyAndMaxXy(square: Square): (Int, Int, Int, Int) =
       (square.getMinX.toInt, square.getMinY.toInt, square.getMaxX.toInt, square.getMaxY.toInt)
 
-    assert(minXyAndMaxXy(new Square(new Point(100, 200), 10)) ==(100, 200, 110, 210))
-    assert(minXyAndMaxXy(new Square(10)) ==(0, 0, 10, 10))
-    assert(minXyAndMaxXy(new Square) ==(0, 0, 0, 0))
+    assert(minXyAndMaxXy(new Square(new Point(100, 200), 10)) === (100, 200, 110, 210))
+    assert(minXyAndMaxXy(new Square(10)) === (0, 0, 10, 10))
+    assert(minXyAndMaxXy(new Square) === (0, 0, 0, 0))
   }
 
   //
@@ -358,8 +357,8 @@ class ChapterSuite extends FunSuite {
 
   test("Creatures") {
     val ant = new Ant
-    //assert(ant.env.size == 0)     // Ant#range를 def로 선언하기 전에는 결과가 0
-    assert(ant.env.size == 2) // Ant#range를 def로 선언하면 결과는 2
+    //assert(ant.env.size === 0)     // Ant#range를 def로 선언하기 전에는 결과가 0
+    assert(ant.env.size === 2) // Ant#range를 def로 선언하면 결과는 2
   }
 
   /*
@@ -456,7 +455,7 @@ class ChapterSuite extends FunSuite {
     //val stack = new Stack[Int](intList)   // 컴파일 에러
     val myStack = new MyStack[Int](intList)
 
-    //assert(stack.elems == List(1, 2, 3))  // 컴파일 에러
-    assert(myStack.currentElements == List(1, 2, 3))
+    //assert(stack.elems === List(1, 2, 3))  // 컴파일 에러
+    assert(myStack.currentElements === List(1, 2, 3))
   }
 }

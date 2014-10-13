@@ -104,10 +104,10 @@ class ChapterSuite extends FunSuite {
   //
 
   test("first and last characters") {
-    assert("scala".head == 's')
-    assert("scala"(0) == 's')
+    assert("scala".head === 's')
+    assert("scala"(0) === 's')
 
-    assert("scala".last == 'a')
+    assert("scala".last === 'a')
   }
 
   //
@@ -126,22 +126,22 @@ class ChapterSuite extends FunSuite {
   test("(take, drop, takeRight, dropRight) vs substring") {
     val str = "Scala for the Impatient"
 
-    assert((str take 5) == "Scala")
-    assert(str.substring(0, 5) == "Scala")
+    assert((str take 5) === "Scala")
+    assert(str.substring(0, 5) === "Scala")
 
-    assert((str drop 5) == " for the Impatient")
-    assert(str.substring(5) == " for the Impatient")
+    assert((str drop 5) === " for the Impatient")
+    assert(str.substring(5) === " for the Impatient")
 
-    assert((str takeRight 5) == "tient")
-    assert(str.substring(str.length - 5, str.length) == "tient")
+    assert((str takeRight 5) === "tient")
+    assert(str.substring(str.length - 5, str.length) === "tient")
 
-    assert((str dropRight 5) == "Scala for the Impa")
-    assert(str.substring(0, str.length - 5) == "Scala for the Impa")
+    assert((str dropRight 5) === "Scala for the Impa")
+    assert(str.substring(0, str.length - 5) === "Scala for the Impa")
 
-    assert((str drop 6 dropRight 4) == "for the Impat")
-    assert(str.substring(6, str.length - 4) == "for the Impat")
+    assert((str drop 6 dropRight 4) === "for the Impat")
+    assert(str.substring(6, str.length - 4) === "for the Impat")
 
-    assert((str drop 4 take 6) == "a for ")
-    assert(str.substring(4, 10) == "a for ")
+    assert((str drop 4 take 6) === "a for ")
+    assert(str.substring(4, 10) === "a for ")
   }
 }

@@ -3,7 +3,6 @@ package impatient.chapter04
 import org.scalatest.FunSuite
 import scala.collection.JavaConversions.mapAsScalaMap
 import scala.collection.JavaConversions.propertiesAsScalaMap
-import scala.collection.mutable.ArrayBuffer
 
 class ChapterSuite extends FunSuite {
   //
@@ -39,7 +38,7 @@ class ChapterSuite extends FunSuite {
       "Mac Mini" -> 990000 * 0.9
     )
 
-    assert(discountPrices(input) == expected)
+    assert(discountPrices(input) === expected)
   }
 
   //
@@ -109,7 +108,7 @@ class ChapterSuite extends FunSuite {
     assert(compareWordCounts(wordCountMutableMap, sortedMap))
 
     val keys: List[String] = (for ((k, _) <- sortedMap) yield k).toList
-    assert(keys == keys.sorted)
+    assert(keys === keys.sorted)
   }
 
   //
@@ -133,7 +132,7 @@ class ChapterSuite extends FunSuite {
     assert(compareWordCounts(wordCountMutableMap, javaTreeMap))
 
     val keys: List[String] = (for ((k, _) <- javaTreeMap) yield k).toList
-    assert(keys == keys.sorted)
+    assert(keys === keys.sorted)
   }
 
   //
@@ -151,7 +150,7 @@ class ChapterSuite extends FunSuite {
   )
 
   test("daysMap") {
-    assert((for ((_, v) <- daysMap) yield v).toBuffer == ArrayBuffer(2, 3, 4, 5, 6, 7, 1))
+    assert((for ((_, v) <- daysMap) yield v) === Array(2, 3, 4, 5, 6, 7, 1))
   }
 
   //
@@ -175,7 +174,7 @@ class ChapterSuite extends FunSuite {
 
   test("minmax") {
     val values = Array(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
-    assert(minmax(values) == ((-5, 4)))
+    assert(minmax(values) === ((-5, 4)))
   }
 
   //
@@ -193,7 +192,7 @@ class ChapterSuite extends FunSuite {
     val pivot = 1
     val expected = (6, 1, 3)
 
-    assert(lteqgt(values, pivot) == expected)
+    assert(lteqgt(values, pivot) === expected)
   }
 
   //

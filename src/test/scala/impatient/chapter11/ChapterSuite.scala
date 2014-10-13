@@ -328,7 +328,7 @@ class ChapterSuite extends FunSuite {
     assert(BitSequence(2)(1))
     assert(BitSequence(1024)(10))
 
-    def checkEncodingDecoding(longVal: Long): Unit = assert(BitSequence(longVal).toLong == longVal)
+    def checkEncodingDecoding(longVal: Long): Unit = assert(BitSequence(longVal).toLong === longVal)
 
     checkEncodingDecoding(Long.MinValue)
     checkEncodingDecoding(Long.MaxValue)
@@ -385,7 +385,7 @@ class ChapterSuite extends FunSuite {
     val mat1 = Matrix(3, 3, Array(1, 3, 7, 1, 0, 0, 1, 2, 2))
     val mat2 = Matrix(3, 3, Array(0, 0, 5, 7, 5, 0, 2, 1, 1))
     val mat3 = Matrix(3, 3, Array(1, 3, 12, 8, 5, 0, 3, 3, 3))
-    assert(mat1 + mat2 == mat3)
+    assert(mat1 + mat2 === mat3)
     println(ASCIIArt(mat1.toString) + ASCIIArt("+") + ASCIIArt(mat2.toString) + ASCIIArt("=") + ASCIIArt(mat3.toString))
 
     println()
@@ -393,14 +393,14 @@ class ChapterSuite extends FunSuite {
     val mat4 = Matrix(2, 3, Array(1, 0, 2, -1, 3, 1))
     val mat5 = Matrix(3, 2, Array(3, 1, 2, 1, 1, 0))
     val mat6 = Matrix(2, 2, Array(5, 1, 4, 2))
-    assert(mat4 * mat5 == mat6)
+    assert(mat4 * mat5 === mat6)
     println(ASCIIArt(mat4.toString) + ASCIIArt("*") + ASCIIArt(mat5.toString) + ASCIIArt("=") + ASCIIArt(mat6.toString))
 
     println()
 
     val mat7 = Matrix(2, 3, Array(1, 8, -3, 4, -2, 5))
     val mat8 = Matrix(2, 3, Array(2, 16, -6, 8, -4, 10))
-    assert(mat7 * 2 == mat8)
+    assert(mat7 * 2 === mat8)
     println(ASCIIArt(mat7.toString) + ASCIIArt("* 2 =") + ASCIIArt(mat8.toString))
   }
 
@@ -416,9 +416,9 @@ class ChapterSuite extends FunSuite {
   test("RichFile unapply") {
     {
       val RichFile1(path, name, extension) = new sbt.RichFile(new java.io.File("/home/cay/readme.txt"))
-      assert(path == "/home/cay")
-      assert(name == "readme")
-      assert(extension == "txt")
+      assert(path === "/home/cay")
+      assert(name === "readme")
+      assert(extension === "txt")
     }
 
     {
@@ -427,9 +427,9 @@ class ChapterSuite extends FunSuite {
        */
 
       val RichFile1(path, name, extension) = new sbt.RichFile(new java.io.File("/home/cay/"))
-      assert(path == "/home")
-      assert(name == "cay")
-      assert(extension == "")
+      assert(path === "/home")
+      assert(name === "cay")
+      assert(extension === "")
     }
   }
 

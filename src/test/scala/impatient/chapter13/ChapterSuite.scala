@@ -3,7 +3,6 @@ package impatient.chapter13
 import org.scalatest.FunSuite
 
 import scala.collection._
-import scala.collection.mutable.ArrayBuffer
 
 class ChapterSuite extends FunSuite {
 
@@ -19,8 +18,8 @@ class ChapterSuite extends FunSuite {
 
   test("mutableIndexes") {
     val indexes: mutable.Map[Char, mutable.LinkedHashSet[Int]] = mutableIndexes("Mississippi")
-    assert(indexes('M').mkString(" ") == "0")
-    assert(indexes('i').mkString(" ") == "1 4 7 10")
+    assert(indexes('M').mkString(" ") === "0")
+    assert(indexes('i').mkString(" ") === "1 4 7 10")
   }
 
   //
@@ -38,8 +37,8 @@ class ChapterSuite extends FunSuite {
 
   test("immutableIndexes") {
     val indexes: Map[Char, List[Int]] = immutableIndexes("Mississippi")
-    assert(indexes('M').mkString(" ") == "0")
-    assert(indexes('i').mkString(" ") == "1 4 7 10")
+    assert(indexes('M').mkString(" ") === "0")
+    assert(indexes('i').mkString(" ") === "1 4 7 10")
   }
 
   //
@@ -58,7 +57,7 @@ class ChapterSuite extends FunSuite {
   test("removeZeros") {
     def assertRemoveZeros(input: mutable.LinkedList[Int], expected: List[Int]): Unit = {
       removeZeros(input)
-      assert(input.toList == expected)
+      assert(input.toList === expected)
     }
 
     assertRemoveZeros(mutable.LinkedList(1, 2, 3), List(1, 2, 3))
@@ -78,7 +77,7 @@ class ChapterSuite extends FunSuite {
   def flatMapExample(strings: Array[String], stringToInt: Map[String, Int]): Array[Int] = strings.flatMap(stringToInt.get)
 
   test("flatMapExample") {
-    assert(flatMapExample(Array("Tom", "Fred", "Harry"), Map("Tom" -> 3, "Dick" -> 4, "Harry" -> 5)).toBuffer == ArrayBuffer(3, 5))
+    assert(flatMapExample(Array("Tom", "Fred", "Harry"), Map("Tom" -> 3, "Dick" -> 4, "Harry" -> 5)) === Array(3, 5))
   }
 
   //
@@ -119,20 +118,20 @@ class ChapterSuite extends FunSuite {
       두 가지 예 모두 원래 리스트와 동일한 리스트를 만들어낸다.
      */
     test("list fold example") {
-      assert((lst :\ List[Int]())(_ :: _) == lst)
-      // assert(lst.foldRight(List[Int]())(_ :: _) == lst)
+      assert((lst :\ List[Int]())(_ :: _) === lst)
+      // assert(lst.foldRight(List[Int]())(_ :: _) === lst)
 
-      assert((List[Int]() /: lst)(_ :+ _) == lst)
-      // assert(lst.foldLeft(List[Int]())(_ :+ _) == lst)
+      assert((List[Int]() /: lst)(_ :+ _) === lst)
+      // assert(lst.foldLeft(List[Int]())(_ :+ _) === lst)
     }
 
     /*
       위 예와 foldLeft/foldRight 와 연산 함수를 반대로 섞어서 사용하면 리스트를 뒤집을 수 있다.
      */
     test("reverse list") {
-      assert((lst :\ List[Int]())((e, lst) => lst :+ e) == lst.reverse)
+      assert((lst :\ List[Int]())((e, lst) => lst :+ e) === lst.reverse)
 
-      assert((List[Int]() /: lst)((lst, e) => e :: lst) == lst.reverse)
+      assert((List[Int]() /: lst)((lst, e) => e :: lst) === lst.reverse)
     }
   }
 
@@ -146,11 +145,11 @@ class ChapterSuite extends FunSuite {
     val expected = List(50.0, 40.0, 9.95)
 
     test("zip example") {
-      assert((prices zip quantities).map { p => p._1 * p._2} == expected)
+      assert((prices zip quantities).map { p => p._1 * p._2} === expected)
     }
 
     test("zip, map, Function2") {
-      assert((prices zip quantities).map(((_: Double) * (_: Int)).tupled) == expected)
+      assert((prices zip quantities).map(((_: Double) * (_: Int)).tupled) === expected)
     }
   }
 
@@ -161,9 +160,7 @@ class ChapterSuite extends FunSuite {
   def to2DArray(ints: Array[Int], cols: Int) = ints.grouped(cols).toArray
 
   test("to2DArray") {
-    def toBuffer(array: Array[Array[Int]]) = array.map(_.toBuffer).toBuffer
-
-    assert(toBuffer(to2DArray(Array(1, 2, 3, 4, 5, 6), 3)) == toBuffer(Array(Array(1, 2, 3), Array(4, 5, 6))))
+    assert(to2DArray(Array(1, 2, 3, 4, 5, 6), 3) === Array(Array(1, 2, 3), Array(4, 5, 6)))
   }
 
   //
@@ -192,13 +189,13 @@ class ChapterSuite extends FunSuite {
     futures.foreach(_.isDone)
 
     /*
-      frequencies 에 어떤 구현체를 이용하든 아래 테스트에 실패한다.
+      frequencies 에 어떤 구현체를 이용하든 frequencies === expectedFrequencies 일 수 없다.
 
           frequencies(c) = frequencies.getOrElse(c, 0) + 1
 
       은 조회와 갱신이 하나의 atomic한 단계로 수행되지 않기 때문이다.
      */
-    // assert(frequencies == expectedFrequencies)
+    assert(frequencies !== expectedFrequencies)
   }
 
   //
@@ -216,15 +213,15 @@ class ChapterSuite extends FunSuite {
 
     /*
       본문에 나와 있는대로, 병렬 연산이 공유 변수를 변경하면 결과는 예측 불가능하다.
-      아래 테스트는 실패한다.
+      frequencies === expectedFrequencies 일 수 없다.
      */
-    // assert(frequencies == expectedFrequencies)
+    assert(frequencies !== expectedFrequencies)
   }
 
   test("parallel collection") {
     val frequencies = inputContents.par.aggregate(Map[Char, Int]())(
       (freq, c) => freq + (c -> (freq.getOrElse(c, 0) + 1)),
       (freq1, freq2) => (freq1.keySet ++ freq2.keySet).map(c => (c, freq1.getOrElse(c, 0) + freq2.getOrElse(c, 0))).toMap)
-    assert(frequencies == expectedFrequencies)
+    assert(frequencies === expectedFrequencies)
   }
 }

@@ -86,7 +86,7 @@ class ChapterSuite extends FunSuite {
     source.close()
 
     for (i <- (1 to lines.length) filter (_ % 2 == 1))
-      assert(lines(i - 1) == lines(i), "line " + (i - 1) + " ~ " + i)
+      assert(lines(i - 1) === lines(i), "line " + (i - 1) + " ~ " + i)
   }
 
   //
@@ -290,10 +290,10 @@ class ChapterSuite extends FunSuite {
 
   test("friendship") {
     def checkFriendship(friends: Array[Person]) {
-      assert(friends.length == 3)
-      assert(friends(0).friends.length == 2)
-      assert(friends(0).friends(0) == friends(1))
-      assert(friends(0).friends(1) == friends(2))
+      assert(friends.length === 3)
+      assert(friends(0).friends.length === 2)
+      assert(friends(0).friends(0) === friends(1))
+      assert(friends(0).friends(1) === friends(2))
     }
 
     import java.io._

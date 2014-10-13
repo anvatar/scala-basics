@@ -43,7 +43,7 @@ class ChapterSuite extends FunSuite {
     val bankAccount = new BankAccount
     //bankAccount.balance = 100   /* 컴파일 에러 */
 
-    assert(bankAccount.deposit(150).withdraw(200).deposit(100).balance == 50)
+    assert(bankAccount.deposit(150).withdraw(200).deposit(100).balance === 50)
   }
 
   //
@@ -130,15 +130,15 @@ class ChapterSuite extends FunSuite {
 
     val anvatar = new Student(name, id)
 
-    assert(anvatar.getName == name)
-    assert(anvatar.getId == id)
+    assert(anvatar.getName === name)
+    assert(anvatar.getId === id)
     anvatar.setId(id2)
-    assert(anvatar.getId == id2)
+    assert(anvatar.getId === id2)
 
-    assert(anvatar.name == name)
-    assert(anvatar.id == id2)
+    assert(anvatar.name === name)
+    assert(anvatar.id === id2)
     anvatar.id = id
-    assert(anvatar.id == id)
+    assert(anvatar.id === id)
   }
 
   /*
@@ -166,10 +166,10 @@ class ChapterSuite extends FunSuite {
     }
 
     val fred = new Person(-2)
-    assert(fred.age == 0)
+    assert(fred.age === 0)
 
     val wilma = new Person
-    assert(wilma.age == 0)
+    assert(wilma.age === 0)
   }
 
   //
@@ -184,8 +184,8 @@ class ChapterSuite extends FunSuite {
 
     val fred = new Person("Fred Smith")
 
-    assert(fred.firstName == "Fred")
-    assert(fred.lastName == "Smith")
+    assert(fred.firstName === "Fred")
+    assert(fred.lastName === "Smith")
 
     /*
         기본 생성자의 인자는 일반 인자면 된다. firstName, lastName 필드 값을 계산한 뒤에는 별도로 이용할 필요가 없기 때문이다.
@@ -198,22 +198,22 @@ class ChapterSuite extends FunSuite {
 
   test("Cars") {
     val i30 = new Car("Hyundai", "i30", 2008, "6048")
-    assert(i30.manufacturer == "Hyundai")
-    assert(i30.modelName == "i30")
-    assert(i30.modelYear == 2008)
-    assert(i30.registeredNum == "6048")
+    assert(i30.manufacturer === "Hyundai")
+    assert(i30.modelName === "i30")
+    assert(i30.modelYear === 2008)
+    assert(i30.registeredNum === "6048")
 
     val forte = new Car("Kia", "Forte")
-    assert(forte.modelYear == -1)
-    assert(forte.registeredNum == "")
+    assert(forte.modelYear === -1)
+    assert(forte.registeredNum === "")
 
     val sonata = new Car("Hyundai", "Sonata", 2009)
-    assert(sonata.modelYear == 2009)
-    assert(sonata.registeredNum == "")
+    assert(sonata.modelYear === 2009)
+    assert(sonata.registeredNum === "")
 
     val spark = new Car("Chevrolet", "Spark", "2236")
-    assert(spark.modelYear == -1)
-    assert(spark.registeredNum == "2236")
+    assert(spark.modelYear === -1)
+    assert(spark.registeredNum === "2236")
   }
 
   //
@@ -250,10 +250,10 @@ class ChapterSuite extends FunSuite {
 
   test("Employee2") {
     val john = new Employee2
-    assert(john.name == "John Q. Public")
+    assert(john.name === "John Q. Public")
 
     val anvatar = new Employee2("HongJoon Ahn")
     anvatar.salary = 0.1
-    assert(anvatar.name == "HongJoon Ahn")
+    assert(anvatar.name === "HongJoon Ahn")
   }
 }

@@ -26,9 +26,9 @@ class ChapterSuite extends FunSuite {
 
       val sortedExpected = 0 until n
 
-      assert(result.sorted.toBuffer == sortedExpected.toBuffer)
-      assert(result.toBuffer != sortedExpected.toBuffer)
-      assert(result.toBuffer != sortedExpected.reverse.toBuffer)
+      assert(result.sorted === sortedExpected)
+      assert(result !== sortedExpected)
+      assert(result !== sortedExpected.reverse)
     }
   }
 
@@ -47,7 +47,7 @@ class ChapterSuite extends FunSuite {
   test("bubbleArray mutable version") {
     val input = Array(1, 2, 3, 4, 5)
     bubbleArrayMutable(input)
-    assert(input.toBuffer == ArrayBuffer(2, 1, 4, 3, 5))
+    assert(input === Array(2, 1, 4, 3, 5))
   }
 
   //
@@ -65,8 +65,8 @@ class ChapterSuite extends FunSuite {
   test("bubbleArray immutable version") {
     val input = Array(1, 2, 3, 4, 5)
     val result = bubbleArrayImmutable(input)
-    assert(result.toBuffer == ArrayBuffer(2, 1, 4, 3, 5))
-    assert(input.toBuffer != result.toBuffer)
+    assert(result === Array(2, 1, 4, 3, 5))
+    assert(input !== result)
   }
 
   //
@@ -84,9 +84,9 @@ class ChapterSuite extends FunSuite {
 
   test("positivesFirstArray") {
     val input = Array(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
-    val expected = ArrayBuffer(4, 2, 1, 3, -5, -1, 0, -2, -3, -4)
+    val expected = Array(4, 2, 1, 3, -5, -1, 0, -2, -3, -4)
 
-    assert(positivesFirstArray(input).toBuffer == expected)
+    assert(positivesFirstArray(input) === expected)
   }
 
   //
@@ -110,7 +110,7 @@ class ChapterSuite extends FunSuite {
 
   test("reverseArray") {
     val input = Array(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
-    assert(reverseArray(input).toBuffer == input.reverse.toBuffer)
+    assert(reverseArray(input) === input.reverse)
   }
 
   def reverseBuffer(ints: ArrayBuffer[Int]): ArrayBuffer[Int] = {
@@ -121,7 +121,7 @@ class ChapterSuite extends FunSuite {
 
   test("reverseBuffer") {
     val input = ArrayBuffer(4, -5, -1, 0, -2, 2, -3, 1, 3, -4)
-    assert(reverseBuffer(input) == input.reverse)
+    assert(reverseBuffer(input) === input.reverse)
   }
 
   //
@@ -130,9 +130,9 @@ class ChapterSuite extends FunSuite {
 
   test("distinct") {
     val input = Array(2, 6, 7, 3, 4, 9, 5, 9, 2, 0, 0, 6, 4, 8, 7, 5, 1, 1, 8, 3)
-    val expected = (0 until 10).toBuffer
+    val expected = 0 until 10
 
-    assert(input.distinct.sorted.toBuffer == expected)
+    assert(input.distinct.sorted === expected)
   }
 
   //
@@ -166,7 +166,7 @@ class ChapterSuite extends FunSuite {
     val expected = ArrayBuffer(4, -5, 0, 2, 1, 3)
 
     noMoreThanOneNegativeArray(input)
-    assert(input == expected)
+    assert(input === expected)
   }
 
   test("noMoreThanOneNegativeArray2") {
@@ -174,7 +174,7 @@ class ChapterSuite extends FunSuite {
     val expected = ArrayBuffer[Int]()
 
     noMoreThanOneNegativeArray(input)
-    assert(input == expected)
+    assert(input === expected)
   }
 
   test("noMoreThanOneNegativeArray3") {
@@ -182,7 +182,7 @@ class ChapterSuite extends FunSuite {
     val expected = ArrayBuffer(4, 0, 2, 1, 3)
 
     noMoreThanOneNegativeArray(input)
-    assert(input == expected)
+    assert(input === expected)
   }
 
   //
@@ -198,8 +198,8 @@ class ChapterSuite extends FunSuite {
   test("timeZonesOfRegion") {
     val result = timeZonesOfRegion("America")
 
-    assert(result.head == "Adak")
-    assert(result.last == "Yellowknife")
+    assert(result.head === "Adak")
+    assert(result.last === "Yellowknife")
   }
 
   //

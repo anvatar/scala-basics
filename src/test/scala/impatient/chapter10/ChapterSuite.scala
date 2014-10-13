@@ -269,7 +269,7 @@ class ChapterSuite extends FunSuite {
       assertResult(c)(read.toChar)
 
       val readDataLength = str.length - inputStream.data.length
-      assert(readDataLength == str.length || readDataLength % inputStream.bufferSize == 0)
+      assert(readDataLength === str.length || readDataLength % inputStream.bufferSize === 0)
     }
     inputStream.close()
   }
@@ -295,7 +295,7 @@ class ChapterSuite extends FunSuite {
       assertResult(c)(read.toChar)
 
       val readDataLength = inputStream.messages.length
-      assert(readDataLength == str.length || readDataLength % inputStream.bufferSize == 0)
+      assert(readDataLength === str.length || readDataLength % inputStream.bufferSize === 0)
     }
     inputStream.close()
   }

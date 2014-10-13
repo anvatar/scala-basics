@@ -24,8 +24,8 @@ class ChapterSuite extends FunSuite {
 
   test("max() with reduceLeft") {
     val input = Array(4, -3, 2, -5, 0)
-    assert(input.reduceLeft(maxWithReduceLeft) == input.max)
-    assert(input.reduceLeft((x, y) => if (x > y) x else y) == input.max)
+    assert(input.reduceLeft(maxWithReduceLeft) === input.max)
+    assert(input.reduceLeft((x, y) => if (x > y) x else y) === input.max)
   }
 
   //
@@ -35,14 +35,14 @@ class ChapterSuite extends FunSuite {
   def factorialWithReduceLeft(n: Int): Long = if (n < 1) 1 else 1L to n reduceLeft (_ * _)
 
   test("factorial() with reduceLeft") {
-    assert(factorialWithReduceLeft(0) == 1)
-    assert(factorialWithReduceLeft(1) == 1)
-    assert(factorialWithReduceLeft(2) == 2)
-    assert(factorialWithReduceLeft(3) == 6)
-    assert(factorialWithReduceLeft(4) == 24)
-    assert(factorialWithReduceLeft(5) == 120)
-    assert(factorialWithReduceLeft(6) == 720)
-    assert(factorialWithReduceLeft(20) == 2432902008176640000L)
+    assert(factorialWithReduceLeft(0) === 1)
+    assert(factorialWithReduceLeft(1) === 1)
+    assert(factorialWithReduceLeft(2) === 2)
+    assert(factorialWithReduceLeft(3) === 6)
+    assert(factorialWithReduceLeft(4) === 24)
+    assert(factorialWithReduceLeft(5) === 120)
+    assert(factorialWithReduceLeft(6) === 720)
+    assert(factorialWithReduceLeft(20) === 2432902008176640000L)
   }
 
   //
@@ -57,14 +57,14 @@ class ChapterSuite extends FunSuite {
   def factorialWithFoldLeft(n: Int): Long = (1 to n).foldLeft(1L)(_ * _)
 
   test("factorial() with foldLeft") {
-    assert(factorialWithFoldLeft(0) == 1)
-    assert(factorialWithFoldLeft(1) == 1)
-    assert(factorialWithFoldLeft(2) == 2)
-    assert(factorialWithFoldLeft(3) == 6)
-    assert(factorialWithFoldLeft(4) == 24)
-    assert(factorialWithFoldLeft(5) == 120)
-    assert(factorialWithFoldLeft(6) == 720)
-    assert(factorialWithFoldLeft(20) == 2432902008176640000L)
+    assert(factorialWithFoldLeft(0) === 1)
+    assert(factorialWithFoldLeft(1) === 1)
+    assert(factorialWithFoldLeft(2) === 2)
+    assert(factorialWithFoldLeft(3) === 6)
+    assert(factorialWithFoldLeft(4) === 24)
+    assert(factorialWithFoldLeft(5) === 120)
+    assert(factorialWithFoldLeft(6) === 720)
+    assert(factorialWithFoldLeft(20) === 2432902008176640000L)
   }
 
   //
@@ -141,12 +141,12 @@ class ChapterSuite extends FunSuite {
     unless (count != 0) {
       count += 1
     }
-    assert(count == 1)
+    assert(count === 1)
 
     unless (count != 0) {
       count += 1
     }
-    assert(count == 1)
+    assert(count === 1)
   }
 
   def nonCurryingUnless(condition: Boolean, body: => Unit): Unit = if (!condition) body
@@ -160,11 +160,11 @@ class ChapterSuite extends FunSuite {
     nonCurryingUnless(count != 0, {
       count += 1
     })
-    assert(count == 1)
+    assert(count === 1)
 
     nonCurryingUnless(count != 0, {
       count += 1
     })
-    assert(count == 1)
+    assert(count === 1)
   }
 }

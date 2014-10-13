@@ -10,13 +10,13 @@ class ChapterSuite extends FunSuite {
   def signum(num: Int) = if (num > 0) 1 else if (num < 0) -1 else 0
 
   test("signum") {
-    assert(signum(1) == 1)
-    assert(signum(2) == 1)
+    assert(signum(1) === 1)
+    assert(signum(2) === 1)
 
-    assert(signum(-1) == -1)
-    assert(signum(-2) == -1)
+    assert(signum(-1) === -1)
+    assert(signum(-2) === -1)
 
-    assert(signum(0) == 0)
+    assert(signum(0) === 0)
   }
 
   //
@@ -101,7 +101,7 @@ class ChapterSuite extends FunSuite {
   }
 
   test("product with for") {
-    assert(productWithFor("Hello") == 9415087488L)
+    assert(productWithFor("Hello") === 9415087488L)
   }
 
   //
@@ -111,7 +111,7 @@ class ChapterSuite extends FunSuite {
   def productWithoutFor(s: String) = s.map(_.toLong).product
 
   test("product without for") {
-    assert(productWithoutFor("Hello") == 9415087488L)
+    assert(productWithoutFor("Hello") === 9415087488L)
   }
 
   //
@@ -129,7 +129,7 @@ class ChapterSuite extends FunSuite {
   def productWithRecursion(s: String): Long = if (s.isEmpty) 1 else s.head * productWithRecursion(s.tail)
 
   test("product with recursion") {
-    assert(productWithRecursion("Hello") == 9415087488L)
+    assert(productWithRecursion("Hello") === 9415087488L)
   }
 
   //
