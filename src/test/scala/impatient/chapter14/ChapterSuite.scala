@@ -64,15 +64,15 @@ class ChapterSuite extends FunSuite {
       Bundle("Anchor Distillery Sampler", 10.0,
         Article("Old Potrero Straight Rye Whiskey", 79.95),
         Article("Junîpero Gin", 32.95)))
-    assert(price(bundle) == 39.95 + (79.95 + 32.95 - 10.0) - 20.0)
+    assert(price(bundle) === 39.95 + (79.95 + 32.95 - 10.0) - 20.0)
 
     assert(price(Multiple(7,
-      Article("Scala for the Impatient", 39.95))) == 7 * 39.95)
+      Article("Scala for the Impatient", 39.95))) === 7 * 39.95)
 
     assert(price(Multiple(3,
       Bundle("Anchor Distillery Sampler", 10.0,
         Article("Old Potrero Straight Rye Whiskey", 79.95),
-        Article("Junîpero Gin", 32.95)))) == 3 * (79.95 + 32.95 - 10.0))
+        Article("Junîpero Gin", 32.95)))) === 3 * (79.95 + 32.95 - 10.0))
   }
 
   //
@@ -89,7 +89,7 @@ class ChapterSuite extends FunSuite {
 
     test("leafSum (exercise 14-5)") {
       val input = List(List(3, 8), 2, List(5)) // ((3 8) 2 (5))
-      assert(leafSum(input) == 18)
+      assert(leafSum(input) === 18)
     }
   }
 
@@ -109,7 +109,7 @@ class ChapterSuite extends FunSuite {
 
     test("leafSum (exercise 14-6)") {
       val input = Node(Node(Node(Leaf(3), Leaf(8)), Leaf(2)), Leaf(5)) // (((3 8) 2) 5)
-      assert(leafSum(input) == 18)
+      assert(leafSum(input) === 18)
     }
   }
 
@@ -129,7 +129,7 @@ class ChapterSuite extends FunSuite {
 
     test("leafSum (exercise 14-7)") {
       val input = Node(Node(Leaf(3), Leaf(8)), Leaf(2), Node(Leaf(5))) // ((3 8) 2 (5))
-      assert(leafSum(input) == 18)
+      assert(leafSum(input) === 18)
     }
   }
 
@@ -158,9 +158,9 @@ class ChapterSuite extends FunSuite {
 
     test("eval") {
       val input = Node(Op.+, Node(Op.*, Leaf(3), Leaf(8)), Leaf(2), Node(Op.-, Leaf(5))) // (3 * 8) + 2 + (-5)
-      assert(eval(input) == ((3 * 8) + 2 + (-5)))
+      assert(eval(input) === ((3 * 8) + 2 + (-5)))
 
-      assert(eval(Node(Op.-, Leaf(3), Leaf(2), Leaf(1))) == 0) // 3 - 2 - 1
+      assert(eval(Node(Op.-, Leaf(3), Leaf(2), Leaf(1))) === 0) // 3 - 2 - 1
 
       intercept[MatchError](eval(Node(Op.*, Leaf(3))))
       intercept[MatchError](eval(Node(Op.+, Leaf(24))))
@@ -179,7 +179,7 @@ class ChapterSuite extends FunSuite {
   }
 
   test("sumOfSomes") {
-    assert(sumOfSomes(List(Some(1), None, Some(2), None, Some(3))) == 6)
+    assert(sumOfSomes(List(Some(1), None, Some(2), None, Some(3))) === 6)
   }
 
   //
@@ -196,8 +196,8 @@ class ChapterSuite extends FunSuite {
     def g(x: Double) = if (x != 1) Some(1 / (x - 1)) else None
     val h = compose(f, g)
 
-    assert(h(2) == Some(1))
-    assert(h(1) == None)
-    assert(h(0) == None)
+    assert(h(2) === Some(1))
+    assert(h(1) === None)
+    assert(h(0) === None)
   }
 }
