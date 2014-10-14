@@ -57,4 +57,28 @@ class ScalaSuite extends FunSuite {
       assert((new Counter).countNonFinal(1L to 1000000, 0) === 1000000)
     }
   }
+
+  //
+  // 연습문제 15-8
+  //
+
+  /*
+      javap로 보면, 다음과 같이 primitive 타입을 위한 메써드가 자동 생성되어 있는 것을 볼 수 있다.
+
+          Compiled from "ScalaUtil.scala"
+          public final class impatient.chapter15.ScalaUtil$ {
+            ...
+            public <T extends java/lang/Object> boolean allDifferent(T, T, T);
+            public boolean allDifferent$mZc$sp(boolean, boolean, boolean);
+            public boolean allDifferent$mBc$sp(byte, byte, byte);
+            public boolean allDifferent$mCc$sp(char, char, char);
+            public boolean allDifferent$mDc$sp(double, double, double);
+            public boolean allDifferent$mFc$sp(float, float, float);
+            public boolean allDifferent$mIc$sp(int, int, int);
+            public boolean allDifferent$mJc$sp(long, long, long);
+            public boolean allDifferent$mSc$sp(short, short, short);
+            public boolean allDifferent$mVc$sp(scala.runtime.BoxedUnit, scala.runtime.BoxedUnit, scala.runtime.BoxedUnit);
+          }
+   */
+
 }
