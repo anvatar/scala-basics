@@ -39,4 +39,22 @@ class ScalaSuite extends FunSuite {
 
     futures.map(_.get)
   }
+
+  //
+  // 연습문제 15-7
+  //
+
+  class Counter {
+    final def countFinal(xs: Seq[Long], partial: Long): Long = if (xs.isEmpty) partial else countFinal(xs.tail, partial + 1)
+
+    def countNonFinal(xs: Seq[Long], partial: Long): Long = if (xs.isEmpty) partial else countNonFinal(xs.tail, partial + 1)
+  }
+
+  test("tail recursive optimization") {
+    assert((new Counter).countFinal(1L to 1000000, 0) === 1000000)
+
+    intercept[StackOverflowError] {
+      assert((new Counter).countNonFinal(1L to 1000000, 0) === 1000000)
+    }
+  }
 }
