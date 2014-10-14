@@ -81,4 +81,21 @@ class ScalaSuite extends FunSuite {
           }
    */
 
+  //
+  // 연습문제 15-9
+  //
+
+  /*
+        $ javap -classpath /.../scala-library-2.11.1.jar scala.collection.immutable.Range | grep foreach
+          public final <U extends java/lang/Object> void foreach(scala.Function1<java.lang.Object, U>);
+          public final void foreach$mVc$sp(scala.Function1<java.lang.Object, scala.runtime.BoxedUnit>);
+
+        trait Function1[@specialized(scala.Int, scala.Long, scala.Float, scala.Double) -T1,
+                        @specialized(scala.Unit, scala.Boolean, scala.Int, scala.Float, scala.Long, scala.Double) +R] extends AnyRef
+
+      모르겠다.
+
+      Range#foreach의 특성 상 Function1[Int, Unit] 타입의 함수 객체를 인자로 받는 경우가 많을텐데,
+      어쩌면 Function1도 [Int, Unit]에 대해 특화된 버전을 제공하므로 특화된 Range#foreach[Function[Int, Unit]]이 성능 상의 이점이 있는 게 아닐까?
+   */
 }
