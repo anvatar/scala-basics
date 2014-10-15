@@ -7,6 +7,12 @@ import org.scalatest.FunSuite
 class ScalaSuite extends FunSuite {
 
   //
+  // 연습문제 15-2
+  //
+
+  /* TODO: 생략함 */
+
+  //
   // 연습문제 15-3
   //
 

@@ -9,6 +9,12 @@ import static org.junit.Assert.assertEquals;
 public class JavaSuite {
 
 	//
+	// 연습문제 15-1
+	//
+
+	/* TODO: 생략함 */
+
+	//
 	// 연습문제 15-4
 	//
 
