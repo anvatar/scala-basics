@@ -7,6 +7,33 @@ import org.scalatest.FunSuite
 class ScalaSuite extends FunSuite {
 
   //
+  // 연습문제 15-3
+  //
+
+  /*
+    @param
+    class deprecatedName(name: Symbol) extends scala.annotation.StaticAnnotation
+
+    @field
+    class transient extends scala.annotation.StaticAnnotation
+
+    @field
+    class volatile extends scala.annotation.StaticAnnotation
+
+    @scala.annotation.meta.field
+    class BeanProperty extends scala.annotation.StaticAnnotation
+
+    @scala.annotation.meta.field
+    class BooleanBeanProperty extends scala.annotation.StaticAnnotation
+
+    @getter @setter @beanGetter @beanSetter
+    class deprecated(message: String = "", since: String = "") extends scala.annotation.StaticAnnotation
+
+    @getter @setter @beanGetter @beanSetter @companionClass @companionMethod
+    final class compileTimeOnly(message: String) extends scala.annotation.StaticAnnotation
+   */
+
+  //
   // 연습문제 15-6
   //
 
