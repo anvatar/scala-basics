@@ -98,4 +98,64 @@ class ScalaSuite extends FunSuite {
       Range#foreach의 특성 상 Function1[Int, Unit] 타입의 함수 객체를 인자로 받는 경우가 많을텐데,
       어쩌면 Function1도 [Int, Unit]에 대해 특화된 버전을 제공하므로 특화된 Range#foreach[Function[Int, Unit]]이 성능 상의 이점이 있는 게 아닐까?
    */
+
+  //
+  // 연습문제 15-10
+  //
+
+  test("factorial") {
+    assert(ScalaUtil.factorial(0) === 1)
+    assert(ScalaUtil.factorial(1) === 1)
+
+    intercept[AssertionError] {
+      ScalaUtil.factorial(-1)
+    }
+  }
+
+  /*
+    별다른 컴파일러 옵션을 주지 않고 컴파일 한 뒤 javap(-c 옵션 사용)로 impatient.chapter15.ScalaUtil$ 클래스의 내용을 확인했을 때
+    ScalaUtil.factorial()의 내용은 다음과 같다:
+
+        public scala.math.BigInt factorial(int);
+        Code:
+           0: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+           3: iload_1
+           4: iconst_0
+           5: if_icmplt     12
+           8: iconst_1
+           9: goto          13
+          12: iconst_0
+          13: invokevirtual #92                 // Method scala/Predef$.assert:(Z)V
+          16: aload_0
+          17: iload_1
+          18: getstatic     #97                 // Field scala/math/BigInt$.MODULE$:Lscala/math/BigInt$;
+          21: iconst_1
+          22: invokevirtual #100                // Method scala/math/BigInt$.int2bigInt:(I)Lscala/math/BigInt;
+          25: invokespecial #104                // Method factorialHelper$1:(ILscala/math/BigInt;)Lscala/math/BigInt;
+          28: areturn
+
+    -Xelide-below MAXIMUM 옵션을 주고(build.sbt 파일에 scalacOptions += "-Xelide-below MAXIMUM" 라인 추가) 컴파일한 뒤
+    같은 방법으로 확인한 내용은 다음과 같다:
+
+        public scala.math.BigInt factorial(int);
+        Code:
+           0: aload_0
+           1: iload_1
+           2: getstatic     #93                 // Field scala/math/BigInt$.MODULE$:Lscala/math/BigInt$;
+           5: iconst_1
+           6: invokevirtual #96                 // Method scala/math/BigInt$.int2bigInt:(I)Lscala/math/BigInt;
+           9: invokespecial #100                // Method factorialHelper$1:(ILscala/math/BigInt;)Lscala/math/BigInt;
+          12: areturn
+
+    Assertion을 비활성화 시키면 대략 다음에 해당하는 코드가 제거되는 것으로 보인다.
+
+           0: getstatic     #19                 // Field scala/Predef$.MODULE$:Lscala/Predef$;
+           3: iload_1
+           4: iconst_0
+           5: if_icmplt     12
+           8: iconst_1
+           9: goto          13
+          12: iconst_0
+          13: invokevirtual #92                 // Method scala/Predef$.assert:(Z)V
+   */
 }
