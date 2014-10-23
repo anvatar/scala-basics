@@ -9,6 +9,10 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.1.6" % "test"
 
 libraryDependencies += "org.scala-sbt" % "io" % "0.13.5" % "test"
 
+libraryDependencies += "junit" % "junit" % "4.11" % "test"
+
 // Uncomment to use Akka
 //libraryDependencies += "com.typesafe.akka" % "akka-actor_2.11" % "2.3.3"
 
+// assertion을 비활성화 하려면 다음 주석 해제
+//scalacOptions += "-Xelide-below MAXIMUM"
