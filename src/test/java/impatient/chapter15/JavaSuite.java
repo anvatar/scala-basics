@@ -35,6 +35,7 @@ public class JavaSuite {
 				def readAll(filePath: String) = ???
 
 			다음과 같이 작성해도 IOException을 catch 하라는 컴파일 에러가 발생하지 않는다.
+			(catch 하려고 하면 컴파일 에러가 발생한다.)
 
 				ScalaUtil.readAll("/tmp/non-existing/filepath");
 		 */
