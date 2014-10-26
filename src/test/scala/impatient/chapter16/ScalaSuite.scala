@@ -99,7 +99,7 @@ class ScalaSuite extends FunSuite {
   test("img@src") {
     val doc: Document = xhtmlDocumentFromReosurcePath("impatient/www_w3c_org.html")
 
-    val imageNames = for (src <- doc \\ "img" \\ "@src") yield src
+    val imageNames = doc \\ "img" \\ "@src"
     assert(imageNames.nonEmpty)
 
     imageNames.foreach(imgSrc => println("img@src: " + imgSrc))
