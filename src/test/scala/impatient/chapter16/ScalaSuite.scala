@@ -105,4 +105,52 @@ class ScalaSuite extends FunSuite {
     imageNames.foreach(imgSrc => println("img@src: " + imgSrc))
   }
 
+  //
+  // 연습문제 16-6
+  //
+
+  test("hyperlinks") {
+    val doc: Document = xhtmlDocumentFromReosurcePath("impatient/www_w3c_org.html")
+
+    val hyperlinks = for (a <- doc \\ "a") yield
+      (a.text.split( """\s+""").mkString(" ").trim, a.attribute("href").getOrElse(Null).toString())
+    assert(hyperlinks.nonEmpty)
+
+    val maxWidths = (hyperlinks.map(_._1.length).max, hyperlinks.map(_._2.length).max)
+    hyperlinks.foreach { hl =>
+      print("| ")
+      print(hl._1 + " " * (maxWidths._1 - hl._1.length))
+      print(" | ")
+      print(hl._2 + " " * (maxWidths._2 - hl._2.length))
+      println(" |")
+    }
+  }
+
+  //
+  // 연습문제 16-7
+  //
+
+  def definitionList(definitions: Map[String, String]): NodeSeq =
+    <dl>{for ((k, v) <- definitions) yield <dt>{Text(k)}</dt><dd>{Text(v)}</dd>}</dl>
+
+  test("definitionList") {
+    assert(definitionList(Map("A" -> "1", "B" -> "2")) match {
+      case <dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl> => true
+    })
+  }
+
+  //
+  // 연습문제 16-8
+  //
+
+  def definitionMap(nodeSeq: NodeSeq): Map[String, String] = nodeSeq match {
+    case <dl>{children@_*}</dl> => children.grouped(2).map({
+      case Seq(Elem(_, "dt", _, _, Text(t)), Elem(_, "dd", _, _, Text(d))) => t -> d
+    }).toMap
+  }
+
+  test("definitionMap") {
+    assert(definitionMap(<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl>) === Map("A" -> "1", "B" -> "2"))
+  }
+
 }
