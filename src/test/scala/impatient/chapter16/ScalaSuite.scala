@@ -4,6 +4,7 @@ import org.scalatest.FunSuite
 
 import scala.xml._
 import scala.xml.parsing.XhtmlParser
+import scala.xml.transform.{RuleTransformer, RewriteRule}
 
 class ScalaSuite extends FunSuite {
 
@@ -153,4 +154,38 @@ class ScalaSuite extends FunSuite {
     assert(definitionMap(<dl><dt>A</dt><dd>1</dd><dt>B</dt><dd>2</dd></dl>) === Map("A" -> "1", "B" -> "2"))
   }
 
+  //
+  // 연습문제 16-9 ~ 16-10
+  //
+
+  def transform(inputResourcePath: String, outputFilePath: String, rewriteRules: RewriteRule*): Unit = {
+    val doc: Document = xhtmlDocumentFromReosurcePath(inputResourcePath)
+    
+    val convertedRoot = new RuleTransformer(rewriteRules: _*).transform(doc.docElem)(0)
+
+    XML.save(outputFilePath, convertedRoot, "UTF-8")
+  }
+
+  test("alt=\"TODO\"") {
+    val inputResourcePath = "impatient/www_w3c_org.html"
+    val outputFilePath = "/tmp/www_w3c_org.html"
+
+    val originalDoc = xhtmlDocumentFromReosurcePath(inputResourcePath)
+    assert((originalDoc \\ "img").count(_.attribute("alt").isEmpty) === 1)
+    assert((originalDoc \\ "img" \\ "@alt").count(_.text == "TODO") === 0)
+
+    transform(inputResourcePath, outputFilePath, new RewriteRule {
+      override def transform(n: Node): Seq[Node] = n match {
+        case e@ <img/> if e.attribute("alt").isEmpty =>
+          e.asInstanceOf[Elem] % Attribute(null, "alt", "TODO", Null)
+        case e@ <img>_*</img> if e.attribute("alt").isEmpty =>
+          e.asInstanceOf[Elem] % Attribute(null, "alt", "TODO", Null)
+        case _ => n
+      }
+    })
+
+    val convertedDoc: Document = new XhtmlParser(scala.io.Source.fromFile(outputFilePath)).initialize.document()
+    assert((convertedDoc \\ "img").count(_.attribute("alt").isEmpty) === 0)
+    assert((convertedDoc \\ "img" \\ "@alt").count(_.text == "TODO") === 1)
+  }
 }
