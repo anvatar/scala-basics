@@ -3,6 +3,7 @@ package impatient.chapter16
 import org.scalatest.FunSuite
 
 import scala.xml._
+import scala.xml.dtd.DocType
 import scala.xml.parsing.XhtmlParser
 import scala.xml.transform.{RuleTransformer, RewriteRule}
 
@@ -160,10 +161,11 @@ class ScalaSuite extends FunSuite {
 
   def transform(inputResourcePath: String, outputFilePath: String, rewriteRules: RewriteRule*): Unit = {
     val doc: Document = xhtmlDocumentFromReosurcePath(inputResourcePath)
-    
-    val convertedRoot = new RuleTransformer(rewriteRules: _*).transform(doc.docElem)(0)
 
-    XML.save(outputFilePath, convertedRoot, "UTF-8")
+    val convertedRoot = new RuleTransformer(rewriteRules: _*).transform(doc.docElem)(0)
+    val docType = new DocType(convertedRoot.label, doc.dtd.externalID, doc.dtd.decls)
+
+    XML.save(outputFilePath, convertedRoot, "UTF-8", doctype = docType)
   }
 
   test("alt=\"TODO\"") {
