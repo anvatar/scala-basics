@@ -23,6 +23,27 @@ class ScalaSuite extends FunSuite {
       Elem은 NodeSeq를 확장한다. Elem#apply(Int)는 NodeSeq에서 왔다.
      */
     assert(<fred/>(0)(0) === Elem(null, "fred", Null, TopScope, minimizeEmpty = true))
+
+    /* 결국 <fred/>, <fred/>(0), <fred/>(0)(0), <fred/>(0)(0)(0), ... 이 모두 같다. */
+    assert(<fred/> == <fred/>(0))
+    assert(<fred/> == <fred/>(0)(0))
+    assert(<fred/> == <fred/>(0)(0)(0))
+
+    /* https://github.com/Sungjick 가 작성한 https://github.com/anvatar/scala-basics/pull/23/files#diff-1 를 참고하여
+       아래 테스트를 추가함 */
+    val fred = <fred/>
+
+    assert(fred == <fred/>)
+    assert(fred(0) == <fred/>)
+    assert(fred(0)(0) == <fred/>)
+
+    assert(!(fred eq <fred/>))
+
+    /* 모두 같은 객체 */
+    assert(fred(0) eq fred)
+    assert(fred(0)(0) eq fred)
+
+    assert(fred.getClass.getName == "scala.xml.Elem")
   }
 
   //
